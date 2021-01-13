@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<title>DHBW WenEng Marc Ströbel (m.stroebel@gmx.de)</title>
+
+	<link rel="stylesheet" href="dist/reset.css" />
+	<link rel="stylesheet" href="dist/reveal.css" />
+	<link rel="stylesheet" href="dist/theme/simple.css" id="theme" />
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme" />
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown>
+				<textarea data-template>
+					## Vorlesung Webservices
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Themen
+					- Historie
+					- Architektur
+					- Cloud-Technologien ({s|i|p}aas)
+					- Cloud-native
+					- ...
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Historie
+					- Mainframe
+					- Desktop-Anwendungen (FatClient)
+					- Client/Server-Anwendungen (z.B. Java EE)
+					- verteilte Architekturen (Browser-UI, GL, DB)
+					- Apps
+					- Cloud-Anwendungen
+					- ...
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Mainframe
+					- serverzentriert, Logik + UI am Server
+					- "dumme" Terminals
+					- proprietär
+					- teuer
+					- "Ich denke, dass es weltweit einen Markt für vielleicht fünf Computer gibt" - Thomas Watson (IBM)
+ 				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Desktop-Anwendungen
+					- Preisverfall, IBM-PC
+					- Logik + UI am Client
+					- relativ freie Technologiewahl
+					- "Inseln", wenig Schnittstellen
+					- "Es gibt keinen Grund, warum jeder einen Computer zu Hause haben sollte." - Ken Olsen (DEC)
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Client/Server-Anwendungen
+					- Logik am Server
+					- UI am Client
+					- meist 1:1 Beziehung, 1 Client, 1 Backend
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### verteilte Architekturen
+					- s. Client/Server
+					- SOA-Hype
+					- 1:n , 1 Client, mehrere Backends
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Apps
+					- s. verteilte Architekturen
+					- n:m 
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Cloud-Anwendungen
+					- s. verteilte Architekturen
+					- There's no cloud, it's just someone else's computer.
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Herausforderungen...
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Klassisches IT-Umfeld
+					- eigenes RZ
+					- knappe Resourcen
+					- gewachsene Prozesse (Dauer HW-Bestellung)
+					- Kostendruck
+					- trifft auf ...
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### neue Geschäftsanforderungen
+					- Agilität
+					- Globalisierung
+					- neue Marktbedingungen: Winner takes all
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Probleme
+					- Wartung (Arbeitszeit 07-18 Uhr vs. globale Verfügbarkeit)
+					- Lastspitzen (Black Friday...)
+					- Big Data
+					- IT-Skills
+				</textarea>
+			</section>
+			<section data-markdown>
+				<textarea data-template>
+					### Cloud-Technologien
+					- Saas (Software as a service)
+					- Iaas (Infrastructure as a service)
+					- Paas (Platform as a service)
+					- Cloud-native
+				</textarea>
+			</section>
+			<section id="pizza-as-a-service">
+				<h2>Pizza as a Service</h2>
+				<p><img data-src="assets/pizzaaas.jpg" /></p>
+				<p><span class="mini">Quelle: Albert Barron, IBM</span></p>
+			</section>
+			<section id="as-a-service">
+				<h2>? as a Service</h2>
+				<p><img data-src="assets/xaas.svg" /></p>
+			</section>
+			<section id="typen-von-clouds" data-markdown>
+				### Typen von Clouds
+				- Traditional IT
+				- Public Cloud
+				- Private Cloud
+				- Hybrid Cloud
+			</section>
+			<section id="traditionelle-it" data-markdown>
+				### Traditionelle IT- Alles In-House
+				- Anforderungen erfassen
+				- Beschaffung
+				- Integration in existierende Systeme
+				- Strom, Netzwerk, Kühlung
+			</section>
+			<section id="public-cloud" data-markdown>
+				### Public Cloud
+				- betrieben von einem Dienstleister **für die Öffentlichkeit**
+				- Massengeschäft
+				- **keine** Anpassungen für einzelne Kunden
+			</section>
+			<section id="private-cloud" data-markdown>
+				### Private Cloud
+				- betrieben von einem Dienstleister für **einen** Kunden, oder
+				- vom Kunden selbst für die eigene Organisation
+				- auf kundeneigener oder Dienstleister-Hardware
+			</section>
+			<section id="hybrid-cloud" data-markdown>
+				### Hybrid Cloud
+				- Verbindung von public und private Cloud
+				- Workload kann frei verschoben werden, je nach Anforderung
+			</section>
+			<section id="potentiale-1" data-markdown>
+				### Potentiale (1)
+				- Einsparung von Personalkosten durch Standardisierung und Automatisierung von
+				- Konfiguration
+				- Betrieb
+				- Verwaltung
+				- Überwachung
+			</section>
+			<section id="potentiale-2" data-markdown>
+				### Potentiale (2)
+				- Verbesserte Kapitalnutzung durch erhöhte Auslastung der Hardware
+				- Verringerte Lizenzkosten durch gemeinsamen Betrieb
+				- Beschleunigte Bereitstellung von Resourcen (Minuten statt Tagen)
+			</section>
+			<section id="risikofaktoren" data-markdown>
+				### Risikofaktoren (1)
+				- Vendor Lock-in
+				- Gewährleistung und Haftung
+				- Cloud-Anbieter haben ggf. Geschäftsbeziehung mit Endanwender (Fernabsatzgesetz, AGB, MWSt.)
+				- Urheberrecht (an Software und den mit ihr erstellten Werken)
+				- Datenschutz (“EU-Cloud”)
+			</section>
+			<section id="risikofaktoren" data-markdown>
+				### Cloud-native
+				- pets vs. cattle
+				- 12 factor apps
+			</section>
+			<section id="pets-vs-cattle" data-markdown>
+				### pets vs. cattle
+				- Jemand installiert Standard-Software auf einem Server
+				- Eine andere Person kopiert selbstentwickelte Software dorthin und startet sie manuell
+				- Ein Dritter konfiguriert System- und Anwendungssoftware
+				- Was passiert, wenn der Server kaputt geht?
+			</section>
+			<section id="pets-vs-cattle" data-markdown>
+				### pets vs. cattle
+				- Automatisierung
+				- Infrastructure as code
+				- Tools Chef, Ansible ...
+			</section>
+			<section id="die-12-faktoren-1" data-markdown>
+				### Die 12 Faktoren (1)
+				- Eine im Versionsmanagementsystem verwaltete Codebase, viele Deployments
+				- Abhängigkeiten explizit deklarieren und isolieren
+				- die Konfiguration in Umgebungsvariablen ablegen
+			</section>
+			<section id="die-12-faktoren-2" data-markdown>
+				### Die 12 Faktoren (2)
+				- Unterstützende Dienste als angehängte Ressourcen behandeln
+				- Build- und Run-Phase strikt trennen
+				- Die App als einen oder mehrere Prozesse ausführen
+			</section>
+			<section id="die-12-faktoren-3" data-markdown>
+				### Die 12 Faktoren (3)
+				- Dienste durch das Binden von Ports exportieren
+				- Nebenläufigkeit wird durch das Skalieren individueller Prozesse ermöglicht
+				- Schneller Start/Stopp ermöglicht robuste Anwendungen
+			</section>
+			<section id="die-12-faktoren-4" data-markdown>
+				### Die 12 Faktoren (4)
+				- Entwicklung, Staging und Produktion so ähnlich wie möglich halten
+				- Logs als Strom von Ereignissen behandeln
+				- Admin/Management-Aufgaben als einmalige Vorgänge behandeln
+			</section>
+			<section id="containers" data-markdown>
+				### Containers
+			</section>
+			<section id="was-sind-container" data-markdown>
+				#### Was sind Container?
+			</section>
+			<section id="gütertransport-vor-ca.-1960">
+				<h2>Gütertransport vor ca. 1960</h2>
+				<p><img data-src="assets/cargo-transport-pre-1960.png" /></p>
+			</section>
+			<section id="matrix-from-hell">
+				<h2>Matrix from Hell</h2>
+				<p><img data-src="assets/also-a-matrix-from-hell.png" /></p>
+			</section>
+			<section id="lösung-container-für-alles">
+				<h2>Lösung: Container für alles</h2>
+				<p><img data-src="assets/intermodal-shipping-container.png" /></p>
+			</section>
+			<section id="staging-vor-2013¹">
+				<h2>Staging vor 2013¹</h2>
+				<p><img data-src="assets/the-challenge.png" /></p>
+				<p>[1] vor Docker</p>
+			</section>
+			<section id="auch-hier-matrix-from-hell">
+				<h2>Auch hier: Matrix from Hell</h2>
+				<p><img data-src="assets/the-matrix-from-hell.png" /></p>
+			</section>
+			<section id="container-vereinheitlichen-die-matrix">
+				<h2>Container vereinheitlichen die Matrix</h2>
+				<p><img data-src="assets/eliminates-matrix-from-hell.png" /></p>
+			</section>
+			<section id="wie" data-markdown>
+				<h2>Wie?</h2>
+				<p><img data-src="assets/shipping-container-for-code.png" /></p>
+			</section>
+			<section id="warum-ist-das-für-die-entwicklung-interessant" data-markdown>
+				#### Warum ist das für die Entwicklung interessant?
+				- Läuft "überall"
+				- Einheitliche Umgebung in dev, staging &amp; prod
+				- Alle Abhängigkeiten enthalten
+				- Apps teilen sich keine Abhängigkeiten
+			</section>
+			<section id="warum-ist-das-für-die-entwicklung-interessant-2" data-markdown>
+				### Warum ist das für die Entwicklung interessant? (2)
+				- Einheitlicher Lebenszyklus ermögliche Standardisierung von
+				- Deployment
+				- Start
+				- Stop
+				- Scaling
+				- Löschen
+
+				Keine Kompatibilitätsprobleme mehr (?)
+			</section>
+			<section id="warum-ist-das-für-den-betrieb-interessant" data-markdown>
+				### Warum ist das für **den Betrieb** interessant?
+				siehe oben plus:
+				- Kaum teurer als Prozesse (vgl. VM)
+				- Weit weniger Hardware benötigt
+				- Einheitlicher Lebenszyklus **aller** Services
+				- Effizienzgewinn durch Standardisierung
+				- Continuous Deployment wird stark vereinfacht
+				- Trennung der Verantwortlichkeiten
+			</section>
+			<section id="trennung-der-verantwortlichkeiten">
+				<h2>Trennung der Verantwortlichkeiten</h2>
+				<p><img data-src="assets/separation-of-concerns.png" /></p>
+			</section>
+			<section id="idee-1">
+				<h2>Idee</h2>
+				<p>
+					<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+					<svg xmlns='http://www.w3.org/2000/svg' width='640' height='210'
+						shape-rendering='geometricPrecision' version='1.0'>
+						<defs>
+							<filter id='f2' x='0' y='0' width='200%' height='200%'>
+								<feOffset result='offOut' in='SourceGraphic' dx='5' dy='5' />
+								<feGaussianBlur result='blurOut' in='offOut' stdDeviation='3' />
+								<feBlend in='SourceGraphic' in2='blurOut' mode='normal' />
+							</filter>
+						</defs>
+						<g stroke-width='1' stroke-linecap='square' stroke-linejoin='round'>
+							<rect x='0' y='0' width='640' height='210' style='fill: #ffffff' />
+							<path stroke='gray' fill='gray' filter='url(#f2)'
+								d='M213.0 91.0 L213.0 173.0 L37.0 173.0 L37.0 91.0 z' />
+							<path stroke='gray' fill='gray' filter='url(#f2)'
+								d='M305.0 175.0 L615.0 175.0 L615.0 147.0 L305.0 147.0 z' />
+							<path stroke='gray' fill='gray' filter='url(#f2)'
+								d='M213.0 119.0 L213.0 145.0 L37.0 145.0 L37.0 119.0 z' />
+							<path stroke='gray' fill='gray' filter='url(#f2)'
+								d='M213.0 149.0 L213.0 173.0 L37.0 173.0 L37.0 149.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='white'
+								d='M213.0 91.0 L213.0 173.0 L37.0 173.0 L37.0 91.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='white'
+								d='M305.0 175.0 L615.0 175.0 L615.0 147.0 L305.0 147.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='white'
+								d='M213.0 119.0 L213.0 145.0 L37.0 145.0 L37.0 119.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M485.0 35.0 L575.0 35.0 L575.0 133.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='white'
+								d='M213.0 149.0 L213.0 173.0 L37.0 173.0 L37.0 149.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M305.0 91.0 L305.0 35.0 L395.0 35.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M615.0 147.0 L615.0 49.0 L585.0 49.0 ' />
+							<path stroke='none' stroke-width='1.000000' stroke-linecap='round' stroke-linejoin='round'
+								fill='#000000' d='M260.0 98.0 L270.0 105.0 L260.0 112.0 z' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M155.0 91.0 L155.0 111.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M95.0 91.0 L95.0 111.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M385.0 63.0 L315.0 63.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-dasharray='5.000000,5.000000'
+								stroke-miterlimit='0' stroke-linecap='butt' stroke-linejoin='round' fill='white'
+								d='M325.0 119.0 L555.0 119.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M475.0 63.0 L405.0 63.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M495.0 63.0 L565.0 63.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M305.0 91.0 L565.0 91.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M395.0 35.0 L395.0 77.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M485.0 35.0 L485.0 77.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M395.0 35.0 L485.0 35.0 ' />
+							<path stroke='#000000' stroke-width='1.000000' stroke-linecap='round'
+								stroke-linejoin='round' fill='none' d='M305.0 147.0 L305.0 91.0 ' />
+							<text x='50' y='110' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+							<text x='56' y='138' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[Betriebssystem]]>
+							</text>
+							<text x='80' y='166' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[Hardware]]>
+							</text>
+							<text x='110' y='110' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+							<text x='170' y='110' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+							<text x='340' y='54' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+							<text x='325' y='82' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[rootfs]]>
+							</text>
+							<text x='376' y='138' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[Betriebssystem]]>
+							</text>
+							<text x='400' y='166' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[Hardware]]>
+							</text>
+							<text x='430' y='54' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+							<text x='415' y='82' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[rootfs]]>
+							</text>
+							<text x='414' y='110' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[Kernel]]>
+							</text>
+							<text x='505' y='82' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[rootfs]]>
+							</text>
+							<text x='590' y='68' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[D ]]>
+							</text>
+							<text x='590' y='82' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[o ]]>
+							</text>
+							<text x='590' y='96' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[c ]]>
+							</text>
+							<text x='590' y='110' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[k ]]>
+							</text>
+							<text x='590' y='124' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[e ]]>
+							</text>
+							<text x='590' y='138' font-family='Courier' font-size='15' stroke='none' fill='#000000'>
+								<![CDATA[r ]]>
+							</text>
+							<text x='520' y='54' font-family='Courier' font-size='13' stroke='none' fill='#000000'>
+								<![CDATA[App]]>
+							</text>
+						</g>
+					</svg>
+				</p>
+			</section>
+			<section id="achtung" data-markdown>
+				### Achtung:
+				#### Containers == Docker?
+				Falsch!
+			</section>
+			<section id="geschichte" data-markdown>
+				### Geschichte
+				- Linux Kernel: process isolation
+				- Namespaces (2006)
+				- cgroups (2007)
+				- LXC (2008)
+				- CF Warden (2011)
+				- Docker (2013)
+			</section>
+			<section id="docker" data-markdown>
+				#### Docker
+				- dotCloud (..2013)
+				- Marketing
+				- Tooling
+				- Mindshare (!)
+			</section>
+			<section id="ab-hier" data-markdown>
+				### >Ab hier
+				#### Containers =~ Docker
+			</section>
+			<section id="docker-bestandteile" data-markdown>
+				### Docker: Bestandteile
+				- Image: Vorlage oder Bauplan für Container
+				- Container: eine Instanz eines Images, die ausgeführt wird
+				- Registry: verwaltet Images
+				- Engine: Laufzeit-Plattform
+			</section>
+			<section id="docker-engine">
+				<h2>Docker Engine</h2>
+				<p><img data-src="assets/engine-components-flow.png" /></p>
+				<aside class="notes">
+					<ul>
+						<li>Server: langlaufender Prozess (daemon)</li>
+						<li>Client: CLI tool zur Kommunikation mit dem Server</li>
+						<li>REST API: Standard-Schnittstelle</li>
+					</ul>
+				</aside>
+			</section>
+			<section id="architektur-2">
+				<h2>Architektur</h2>
+				<p><img data-src="assets/docker-architecture.svg" /></p>
+			</section>
+			<section id="hands-on" data-markdown>
+				### Hands-on
+			</section>
+			<section id="container-starten" data-markdown>
+				<h2>Container starten</h2>
+				``` shell
+				docker run -it --rm alpine sh
+				Unable to find image alpine:latest locally
+				Pulling from library/alpine
+				Digest: sha256:f006ecbb824d87947d0b51ab8488634bf69fe4094959d935c0c103f4820a417d
+				Status: Downloaded newer image for alpine:latest
+				```
+			</section>
+			<section id="was-ist-passiert" data-markdown>
+				### Was ist passiert?
+				- Image heruntergeladen
+				- Container gestarted
+				- mit interaktivem Terminal
+				- Shell gestartet
+				- Shell interaktiv beendet
+				</ul>
+			</section>
+			<section id="containers-vs.-vms">
+				<h2>Containers vs. VMs</h2>
+				<table style="width:94%;">
+					<colgroup>
+						<col style="width: 27%" />
+						<col style="width: 33%" />
+						<col style="width: 33%" />
+					</colgroup>
+					<thead>
+						<tr class="header">
+							<th></th>
+							<th>VMs</th>
+							<th>Container</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="odd">
+							<td>emuliert wird</td>
+							<td>(physische) Hardware</td>
+							<td>OS (Kernel)</td>
+						</tr>
+						<tr class="even">
+							<td>Resourcen-Zugriff</td>
+							<td>Hypervisor</td>
+							<td>Kernel-Features</td>
+						</tr>
+						<tr class="odd">
+							<td>beschränkt auf</td>
+							<td>–</td>
+							<td>Linux, Windows</td>
+						</tr>
+						<tr class="even">
+							<td>Overhead</td>
+							<td>relativ hoch</td>
+							<td>relativ gering</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+			<section id="container-image" data-markdown>
+				### Container-Image
+				- beschrieben durch Dockerfile
+				- Text-Datei mit Schritten zum Bau des Images
+				- gebaut mit
+				``` shell
+				docker build .
+				```
+			</section>
+			<section id="dockerfile" data-markdown>
+				### Dockerfile
+				- FROM: Basis-Image (‘abgeleitet von’ oder ‘basiert auf’)
+				- RUN: Kommando ausführen und Ergebnis als Layer committen
+				- ADD: Lokale Dateien und Verzeichnisse hinzufügen
+				- CMD: Was bei "docker run" passiert
+				- EXPOSE: Deklaration von Ports (vgl. --publish)
+				- ENV : Umgebungsvariablen setzen
+			</section>
+			<section id="multi-container-orchestration" data-markdown>
+				### Multi-Container Orchestration
+				Ein Container kommt selten allein:
+				- Three-tier web app
+				- Wordpress (PHP-files + MySQL)
+			</section>
+			<section id="prinzip" data-markdown>
+				### Prinzip
+				- YAML-Datei beschreibt eine “Komposition” aus mehreren Containern (‘Services’)
+				- Image (z.B. postgres oder php)
+				- Volumes
+				- Abhängigkeiten
+				- Umgebungsvariablen
+				- Ports
+				- etc.
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+			slideNumber: true,
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+		});
+	</script>
+</body>
+</html>
