@@ -1,2 +1,3 @@
 - mvn clean package
 - docker build . -t docker-test
+- docker run -p 8080:8080 docker-test
