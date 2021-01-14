@@ -2,4 +2,4 @@
 Vorlesung WebServices
 
 Literatur
-- [12 factor](https://12factor.net "12 factor")
+- [12 factor apps](https://12factor.net "12 factor apps")
