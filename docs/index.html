@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-	<title>DHBW WenEng Marc Ströbel (m.stroebel@gmx.de)</title>
+	<title>DHBW WebServices Marc Ströbel (m.stroebel@gmx.de)</title>
 
 	<link rel="stylesheet" href="dist/reset.css" />
 	<link rel="stylesheet" href="dist/reveal.css" />
@@ -662,7 +662,7 @@
 			</section>
 			<section id="docker-build-container2" data-markdown>
 				### Build-Container - Vorteile
-				- zustandlos, ermöglicht reproduzierbare Builds
+				- zustandslos, ermöglicht reproduzierbare Builds
 				- isoliert, z.B. parallel mehrere Versionen einer Runtime möglich
 				- Java 8 / Java 11, PHP 7.x / PHP 8
 				- vgl. klassische Installation auf Server :-(
@@ -671,7 +671,7 @@
 				### Build-Container 2
 				- Bind-Mounts für Einbindung Host-Dateisystem
 
-				``` shell
+				```shell
 				docker run -it --rm --name my-maven-project \\
 				-v "$(pwd)":/usr/src/mymaven \\
 				-w /usr/src/mymaven maven mvn clean package
@@ -682,13 +682,77 @@
 				- werden als Teil das Deployments gestartet (div. Stages möglich, je nach Umgebung...)
 				- Backups, DB-Migration, ...
 			</section>
+			<section id="docker-flyway" data-markdown>
+				### Beispiel Flyway
+				- DB-Migration
+				- Infrastructure as code
+				- undo möglich
+				```shell
+				V1__initial.sql
+				V2__add_chats_table.sql
+				```
+			</section>
+			<section id="docker-flyway1" data-markdown>
+				### Beispiel Flyway
+				- SQL-Dialekt
+
+				V1__initial.sql
+				```sql
+				CREATE TABLE MyTable (
+				MyColumn VARCHAR(100) NOT NULL
+				);
+				```
+			</section>
+			<section id="docker-flyway1" data-markdown>
+				### Beispiel Flyway
+				V2__add.sql
+				```sql
+				ALTER TABLE MyTable ADD MyColumn2 VARCHAR(100) NOT NULL;
+				```
+			</section>
+			<section id="docker-flyway2" data-markdown>
+				### Verwendung
+				```shell
+				docker run --rm -v /absolute/path/to/my/sqldir:/flyway/sql \\
+				flyway/flyway -url=jdbc:h2:mem:test -user=sa migrate
+				```
+			</section>
+			<section id="docker-flyway" data-markdown>
+				### Verwendung
+				- ... undo - letzte Migration zurücknehmen
+				- ... clean - Db loeschen
+			</section>
 			<section id="docker-compose" data-markdown>
 				### einfache Container-Orchestrierung
-				``` shell
-				docker run -it --rm --name my-maven-project \\
-				-v "$(pwd)":/usr/src/mymaven \\
-				-w /usr/src/mymaven maven mvn clean package
+				```yaml
+				services:
+				db:
+				image: postgres:latest
+				environment:
+				POSTGRES_USER: pspdfkit
+				POSTGRES_PASSWORD: password
+				...
 				```
+			</section>
+			<section id="docker-compose1" data-markdown>
+				### Reihenfolge
+				```yaml
+				services:
+				web:
+				build: .
+				depends_on:
+				- db
+				...
+				```
+				Container db wird bei "up" vor web gestartet
+			</section>
+			<section id="docker-compose2" data-markdown>
+				### Referenz
+				https://docs.docker.com/compose/compose-file/compose-file-v3/
+			</section>
+			<section id="docker-compose2" data-markdown>
+				### Heroku Tutorial
+				https://devcenter.heroku.com/articles/getting-started-with-java
 			</section>
 		</div>
 	</div>
