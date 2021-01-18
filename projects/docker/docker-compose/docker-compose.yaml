@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      # ... other environment variables
+  app:
+    image: docker-java-db:latest
+
+    environment:
+      listen_port: 8080
+      # ... other environment variables
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
