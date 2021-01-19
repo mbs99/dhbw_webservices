@@ -1,9 +1,6 @@
 package de.dhbw.dbdemo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +13,12 @@ public class DbDemoController {
   }
 
   @GetMapping("/api/chats")
-  public List<ChatMsgEntity> getData() {
-    return this.repo.findAll();
+  public List<ChatMsgEntity> getData(@RequestParam(value = "query", required = false)String query) {
+    if(query != null && ! query.isEmpty()) {
+      return this.repo.findByMsgContaining(query);
+    } else {
+      return this.repo.findAll();
+    }
   }
 
   @PostMapping("/api/chat")
