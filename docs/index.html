@@ -649,10 +649,15 @@
 				- Entrypoint ist statisch, kann nicht überschrieben werden
 				- CMD kann vom Aufrufer gesetzt / überschrieben werden
 			</section>
-			<section id="docker-build-container" data-markdown>
-				### Build-Container
-				- Anwendungen im Container bauen
-				- Einsatz: CI/CD-Pipelines
+			<section id="docker-db" data-markdown>
+				### DB starten mit Port-Freigabe
+				``` shell
+				docker run --name some-postgres --rm -e POSTGRES_PASSWORD=test -p 5432:5432 -d postgres
+				```
+			</section>
+			<section id="docker-compose2" data-markdown>
+				### Referenz
+				https://docs.docker.com/compose/compose-file/compose-file-v3/
 			</section>
 			<section id="docker-build-container1">
 				<h4>Exkurs: CI/CD</h4>
@@ -754,11 +759,295 @@
 				### Heroku Tutorial
 				https://devcenter.heroku.com/articles/getting-started-with-java
 			</section>
-			<section id="jpa" data-markdown>
+			<section id="spring-db" data-markdown>
 				## WebServices mit Java/Spring
 				- Datenbankanbindung
 				- ORM: JPA (Java Persistence Architecture)
 				- Plain: JDBC
+			</section>
+			<section id="jpa-entity" data-markdown>
+				### JPA-Basics
+				- Entity-Klasse anlegen
+
+				```java
+				@Entity
+				public class OrderEntity {}
+				```
+			</section>
+			<section id="jpa-entity-table" data-markdown>
+				### JPA-Basics
+				- optional: Tabelle vorgeben
+
+				```java
+				@Entity
+				@Table(name = "order")
+				public class OrderEntity {}
+				```
+			</section>
+			<section id="jpa-entity-pk" data-markdown>
+				### JPA-Basics
+				- Primary key festlegen
+
+				```java
+				@Entity
+				@Table(name = "order")
+				public class OrderEntity {
+				@Id // Primary key
+				@GeneratedValue // Auto increment
+				public Integer id;
+				}
+				```
+			</section>
+			<section id="jpa-entity-column" data-markdown>
+				### JPA-Basics
+				- optional: Spalten vorgeben
+
+				```java
+				@Entity
+				@Table(name = "order")
+				public class OrderEntity {
+				@Id // Primary key
+				@GeneratedValue // Auto increment
+				public Integer id;
+				}
+
+				@Column(name="desc")
+				public String description;
+				```
+			</section>
+			<section id="jpa-repo" data-markdown>
+				### JPA-Basics
+				- Repository-Interface anlegen
+
+				``` java
+				interface OrderRepo extends JpaRepository&lt;OrderEntity, Integer&gt;
+
+				```
+			</section>
+			<section id="jpa-queries" data-markdown>
+				### JPA-Basics
+				- Queries definieren
+				- Convention over Configuration
+				- Impl wird automatisch generiert!
+
+				``` java
+				// exact match
+				List&lt;OrderEntity&gt; findByDescription(String description);
+				List&lt;OrderEntity&gt; findByDescriptionIgnoreCase(String description);
+				// like
+				List&lt;OrderEntity&gt; findByDescriptionContaining(String description);
+				// like
+				List&lt;OrderEntity&gt; findByDescriptionEndingWith(String description);
+				// mehrere Spalten
+				List&lt;OrderEntity&gt; findByDescriptionContainingAndTitle(String description, String title);
+
+				```
+			</section>
+			<section id="jpa-ref" data-markdown>
+				### Spring queries reference
+				-
+				https://docs.spring.io/spring-data/data-jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+			</section>
+			<section id="jpa-onetomany" data-markdown>
+				### JPA-Basics
+				- Relationen
+
+				``` java
+				@Entity
+				class Cart {
+				@Id
+				@GeneratedValue
+				@Column(name="cart_id")
+				public Integer id;
+				@OneToMany(mappedBy="cart")
+				private Set&lt;Item&gt; items;
+				}
+
+				@Entity
+				class Item {
+				@ManyToOne
+				@JoinColumn(name="cart_id", nullable=false)
+				private Cart cart;
+				}
+
+				```
+			</section>
+			<section id="jpa-db-setup-rel" data-markdown>
+				### JPA-Basics
+				- Relationen
+
+				``` sql
+				CREATE TABLE `Cart` (
+				`cart_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				PRIMARY KEY (`cart_id`)
+				);
+
+				CREATE TABLE `Items` (
+				`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				`cart_id` int(11) unsigned NOT NULL,
+				PRIMARY KEY (`id`),
+				KEY `cart_id` (`cart_id`),
+				CONSTRAINT `items_ibfk_1` FOREIGN KEY (`cart_id`)
+				REFERENCES `Cart` (`cart_id`)
+				); ```
+			</section>
+			<section id="jpa-manytomany1" data-markdown>
+				### JPA-Basics
+				- ManyToMany
+
+				``` java
+				@Entity
+				class Staff {
+				@Id
+				@GeneratedValue
+				@Column(name="staff_id")
+				public Integer id;
+				@ManyToMany(cascade = { CascadeType.ALL })
+				@JoinTable(
+				name = "Staff_Project",
+				joinColumns = { @JoinColumn(name = "staff_id") },
+				inverseJoinColumns = { @JoinColumn(name = "project_id") }
+				)
+				private Set&lt;Project&gt; projects = new HashSet&lt;&gt;();
+				// standard constructors/getters/setters
+				}
+				```
+			</section>
+			<section id="jpa-manytomany2" data-markdown>
+				### JPA-Basics
+				- ManyToMany
+
+				``` java
+				@Entity
+				@Table(name = "Project")
+				public class Project {
+				// ...
+
+				@ManyToMany(mappedBy = "projects")
+				private Set&lt;Staff&gt; staff = new HashSet&lt;&gt;();
+
+				// standard constructors/getters/setters
+				}
+				```
+			</section>
+			<section id="jpa-custom-queries" data-markdown>
+				### JPA-Basics
+				- Custom queries
+
+				``` java
+				@Query("SELECT f FROM OrderEntity f WHERE LOWER(f.description) = LOWER(:description)")
+				OrderEntity retrieveByDescription(@Param("description") String description);
+
+				```
+			</section>
+			<section id="jpa-transactions" data-markdown>
+				### JPA-Basics
+				- Custom queries
+
+				``` java
+				//method level
+				@Transactional
+				public void method();
+
+				//class level
+				@Transactional
+				public class Repo {}
+
+				```
+			</section>
+			<section id="jpa-links" data-markdown>
+				### Links zu Spring + DB
+				- https://www.baeldung.com/the-persistence-layer-with-spring-data-jpa
+				- https://www.baeldung.com/hibernate-one-to-many
+				- https://www.baeldung.com/hibernate-many-to-many
+			</section>
+			<section id="jdbc-setup1" data-markdown>
+				### JDBC-Basics
+				- Setup
+
+				``` java
+				@Service
+				class Repo {
+				private JdbcTemplate jdbcTemplate;
+				public Repo(JdbcTemplate jdbcTemplate) {
+				this.jdbcTemplate = jdbcTemplate;
+				}
+				}
+
+				```
+			</section>
+			<section id="jdbc-setup2" data-markdown>
+				### JDBC-Basics
+				- Setup
+
+				``` java
+				public int addEmplyee(int id) {
+				return jdbcTemplate.update(
+				"INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?)", id, "Bill", "Gates", "USA");
+				}
+				```
+			</section>
+			<section id="jdbc-setup-named-params1" data-markdown>
+				### JDBC-Basics
+				- Setup NamedParameterJdbcTemplate
+
+				``` java
+				@Service
+				class Repo {
+				private NamedParameterJdbcTemplate jdbcTemplate;
+				public Repo(NamedParameterJdbcTemplate jdbcTemplate) {
+				this.jdbcTemplate = jdbcTemplate;
+				}
+				}
+
+				```
+			</section>
+			<section id="jdbc-setup-named-params2" data-markdown>
+				### JDBC-Basics
+				- Named parameters
+
+				``` java
+				SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", 1);
+				return namedParameterJdbcTemplate.queryForObject(
+				"SELECT FIRST_NAME FROM EMPLOYEE WHERE ID = :id", namedParameters, String.class);
+				```
+			</section>
+			<section id="jdbc-java-mapping1" data-markdown>
+				### JDBC-Basics
+				- Setup Java-Mapping
+
+				``` java
+				public class EmployeeRowMapper implements RowMapper&lt;Employee&gt; {
+				@Override
+				public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Employee employee = new Employee();
+
+				employee.setId(rs.getInt("ID"));
+				employee.setFirstName(rs.getString("FIRST_NAME"));
+				employee.setLastName(rs.getString("LAST_NAME"));
+				employee.setAddress(rs.getString("ADDRESS"));
+
+				return employee;
+				}
+				}
+				```
+			</section>
+			<section id="jdbc-java-mapping2" data-markdown>
+				### JDBC-Basics
+
+				``` java
+				String query = "SELECT * FROM EMPLOYEE WHERE ID = ?";
+				Employee employee = jdbcTemplate.queryForObject(
+				query, new Object[] { id }, new EmployeeRowMapper());
+				```
+			</section>
+			<section id="jdbc-links" data-markdown>
+				### Links zu Spring + JDBC
+				- https://www.baeldung.com/spring-jdbc-jdbctemplate
+			</section>
+			<section id="jdbc-links" data-markdown>
+				## Vorbereitung Projektarbeit
+				- Übungsprojekt
 			</section>
 		</div>
 	</div>
