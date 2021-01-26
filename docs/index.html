@@ -1108,7 +1108,7 @@
 
 				``` java
 				@PutMapping("/api/item/{cartId}")
-				public List&lt;Item&gt; findProducts(@PathVariable("cartId", required = true) String cartId,
+				public CartItem modifyItem(@PathVariable("cartId", required = true) String cartId,
 				@RequestBody CartItem item) {
 				}
 				```
