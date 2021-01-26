@@ -1115,6 +1115,54 @@
 
 				https://www.baeldung.com/spring-request-response-body
 			</section>
+			<section id="rest-url-mapping" data-markdown>
+				### Mapping API-ID DB-ID
+				- keine sequenziellen IDs in der API benutzen
+				- Anzeige von nicht erlaubten Daten durch Maniplulation der ID möglich
+				- meist Programmierfehler als Ursache -&gt; defensiver Ansatz
+			</section>
+			<section id="rest-url-mapping2" data-markdown>
+				### Mapping API-ID DB-ID
+				- besser: eigene IDs für API generieren und in der DB speichern
+				- z.B. UUID, breite Unterstützung in Libs
+				- Query erfolgen dann mit dieser ID
+				- evtl. Optimierung mit Indizes auf ID-Spalte
+			</section>
+			<section id="rest-url-mapping3" data-markdown>
+				### Mapping API-ID DB-ID
+				``` java
+				@Entity
+				@Table(indexes = @Index(columnList = "apiId"))
+				public class CartItem {
+
+				@Id
+				@GeneratedValue
+				public Integer id;
+
+				@Column(name="api-id")
+				public String apiId;
+
+				//...
+				}
+				```
+				https://www.baeldung.com/jpa-indexes
+			</section>
+
+			<section id="rest-url-mapping4" data-markdown>
+				### Mapping API-ID DB-ID
+				``` java
+
+				public interface CartItemRepo extends JpaRepo... {
+
+
+				List&lt;CartItem&gt; findByApiId(String id);
+				}
+				```
+			</section>
+			<section id="rest-url-mapping5" data-markdown>
+				### Mapping API-ID DB-ID
+				- Kompromiss für einfache Fälle: UUID als Primary Key verwenden
+			</section>
 		</div>
 	</div>
 
