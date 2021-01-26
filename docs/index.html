@@ -1053,6 +1053,68 @@
 				<h2>Webshop</h2>
 				<p><img data-src="assets/webshop.svg" /></p>
 			</section>
+			<section id="webshop-sequenzdiagramm">
+				<p><img data-src="assets/webshop-sequenzdiagramm.png" /></p>
+			</section>
+			<section id="spring-boot-rest1" data-markdown>
+				### REST-APIs mit Spring - Hands on
+			</section>
+			<section id="spring-boot-rest2" data-markdown>
+				### Produktsuche - Warenkorb
+				- eindeutige ID für Warenkorb erforderlich
+				- Ansatz 1: Cookie setzen bein ersten Zugriff, Wert = Warenkorb-ID
+				- Ansatz 2: Warenkorb-ID als Hidden Field im HTML-Formular speichern
+				- Ansatz 3: Warenkorb-ID als Teil der URL im Hinzuf&uuml;gen-Buttons hinterlegen
+			</section>
+			<section id="spring-boot-rest3" data-markdown>
+				### Cookie auslesen
+				``` java
+				@PostMapping("/api/cart")
+				public ResponseEntity&lt;Cart&gt; createCartFromCookie(@CookieValue(value = "cartId", required = false)
+				String cartId) {
+				//Cookie erzeugen, falls nicht vorhanden
+				HttpCookie cookie = ResponseCookie.from("cartId", cartId == null || cartId.isEmpty() ?
+				UUID.randomUUID().toString() : cartId)
+				.path("/")
+				.httpOnly(true)
+				.secure(true)
+				.build();
+				//...
+				return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(cart);
+				}
+				```
+			</section>
+			<section id="spring-boot-rest4" data-markdown>
+				### Zugriff auf Query-Parameter
+				``` java
+				@GetMapping("/api/products")
+				public List&lt;Item&gt; findProducts(@RequestParam("query", required = false) String query) {
+				}
+				```
+				https://www.baeldung.com/spring-request-param
+			</section>
+			<section id="spring-boot-rest5" data-markdown>
+				### Zugriff auf Pfad-Parameter
+				``` java
+				@GetMapping("/api/cart/{cartId}")
+				public List&lt;Item&gt; findProducts(@PathVariable("cartId", required = true) String cartId) {
+				}
+				```
+				https://www.baeldung.com/spring-requestparam-vs-pathvariable
+			</section>
+			<section id="spring-boot-rest6" data-markdown>
+				### Zugriff auf Request-Body
+				- Standart: JSON-Mapping (kann konfiguriert werden)
+
+				``` java
+				@PutMapping("/api/item/{cartId}")
+				public List&lt;Item&gt; findProducts(@PathVariable("cartId", required = true) String cartId,
+				@RequestBody CartItem item) {
+				}
+				```
+
+				https://www.baeldung.com/spring-request-response-body
+			</section>
 		</div>
 	</div>
 
