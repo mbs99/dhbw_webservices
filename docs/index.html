@@ -1163,6 +1163,150 @@
 				### Mapping API-ID DB-ID
 				- Kompromiss für einfache Fälle: UUID als Primary Key verwenden
 			</section>
+			<section id="uebung1" data-markdown>
+				### Besprechung Übungsaufgabe
+			</section>
+			<section id="uebung2" data-markdown>
+				### Artikel in Warenkorb legen
+				- Als Link (href)
+				- Problem: Seitenwechsel (Page reload)
+				- Workaround: Suchergebnisse serverseitig cachen (Session, Db, ...) und neu generieren
+				- Hinweis anzeigen problemlos per Template ("Artikel wurde in den Warenkorb gelegt, x Artikel im
+				Warenkorb")
+			</section>
+			<section id="uebung3" data-markdown>
+				### Artikel in Warenkorb legen
+				- asynchron per JavaScript
+				- kein Seitenwechsel
+			</section>
+			<section id="uebung4" data-markdown>
+				### Button mit Id oder data-Attribut
+
+				``` html
+				&lt;button id="uuid" data-uuid="uuid" onClick="addToCart(this.id)"&gt;Add to cart&lt;/button&gt;
+				```
+			</section>
+			<section id="uebung4_1" data-markdown>
+				### OnClick-Handler im Script Tag
+				``` html
+				&lt;script&gt;
+				function addToCart(clicked_id) {
+				const Http = new XMLHttpRequest();
+				const url = '/api/....';
+				Http.open("PUT", url);
+				Http.send({
+				id: clicked_id
+				});
+
+				Http.onreadystatechange = (e) => {
+				console.log(Http.responseText)
+				}
+				}
+				&lt;/script&gt;
+				```
+
+			</section>
+			<section id="uebung5" data-markdown>
+				### Plain-Javascript
+				- mittlerweile gut standardisiert (neuere Browser)
+				- alternativ JavaScript-Libs verwenden
+				- Vue.js
+				- Angular/React -&gt; Single Page App
+			</section>
+			<section id="uebung6" data-markdown>
+				### Anwort/Hinweis anzeigen
+				- Anzeige per HTML-DOM
+
+				```
+				&lt;script&gt;
+				function addToCart(clicked_id) {
+				// ...
+				Document.getElementById("Id_des_Hinweis-Divs").innerText = "...";
+				}
+				&lt;/script&gt;
+				```
+
+			</section>
+			<section id="architektur1" data-markdown>
+				### Architekturen für komplexe Anwendungen
+				- Monolith
+				- Micorservices
+				- Microlyths/Moduliths (verteilte Monolithen)
+			</section>
+			<section id="architektur2" data-markdown>
+				### Monolith
+				- klassiche Webanwendung
+				- kann nur als Ganzes ausgerollt/skaliert werden
+				- relativ enge Kopplung
+				- UI - Backend - DB
+			</section>
+			<section id="architektur3" data-markdown>
+				### Vorteile
+				- einfaches Deployment
+				- wenig Abstraktion
+				- einheitliche Technologie
+				- Transaktionen nutzbar
+			</section>
+			<section id="architektur4" data-markdown>
+				### Nachteile
+				- Parallelisierung (mehrere Teams) schwierig
+				- Verantwortlichkeiten unklar
+				- Updates: alles oder nichts
+			</section>
+			<section id="architektur5" data-markdown>
+				### Micorservices
+				- Fachlichkeit in einzelne Services auslagern
+				- eigene DB pro Service
+				- optional: UI pro Service (Microfrontends)
+			</section>
+			<section id="architektur6" data-markdown>
+				### Micorservices - Vorteile
+				- für jeden Service die passende Technologie nutzbar
+				- loose Kopplung
+				- Parallelentwicklung einfach (1-x Microservices/Team)
+				- einfach zu testen
+				- einfache Updates
+				- schnell mal "was ausprobieren"
+			</section>
+			<section id="architektur7" data-markdown>
+				### Micorservices - Nachteile
+				- komplexes Deployment
+				- komplexe Fehlerbehandlung
+				- komplexes Monitoring
+				- Overhead durch Service-Calls
+				- keine Transactionen über mehrere Services
+			</section>
+			<section id="architektur8" data-markdown>
+				### Microlyths/Moduliths
+				- Schnitt nach komplexen Use-Cases
+				- gemeinsame DB
+				- einheitliche Technik
+				- asynchrone Kommunikation zwischen Systemen
+			</section>
+			<section id="architektur8" data-markdown>
+				### Microlyths/Moduliths - Vorteile
+				- klare Verantwortlichkeiten
+				- überschaubarere Umfang
+				- einfache Deployment/Monitoring
+			</section>
+			<section id="architektur8" data-markdown>
+				### Microlyths/Moduliths - Nachteile
+				- Updates: alles oder nichts
+			</section>
+			<section id="architektur9" data-markdown>
+				### Auswahlkriterien
+				| | Monolith | Microservice | Modulith |
+				| ------------- |:-------------:| -----:| ---:|
+				| viele Teams | - | + | + |
+				| schnelle Entwicklung | - | + | -/+ |
+				| strikte (Technik-)Vorgaben | +| - | - |
+				| Skalierung/Last/... nicht einheitlich | - | + | -/+ |
+			</section>
+			<section id="architektur10">
+				<p><img data-src="assets/matrix.jpg" /></p>
+				<a
+					href="https://www.ufried.com/blog/microservices_fallacy_10_microliths/">https://www.ufried.com/blog/microservices_fallacy_10_microliths/</a>
+			</section>
 		</div>
 	</div>
 
