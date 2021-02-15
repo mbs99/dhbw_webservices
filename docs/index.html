@@ -1227,11 +1227,173 @@
 				```
 
 			</section>
+			<section id="rest-api1" data-markdown>
+				### REST-Apis - Best practice
+				- Dokumentation
+				- Stabilität (Resilience)
+				- Versionierung
+			</section>
+			<section id="rest-api2" data-markdown>
+				### Dokumentation
+				- leider kein einheitlicher Ansatz
+				- [OpenApi (aka Swagger)](https://swagger.io/specification/)
+				- speziell: [Spring Rest Docs](https://docs.spring.io/spring-restdocs/docs/current/reference/html5/)
+			</section>
+			<section id="rest-api3" data-markdown>
+				### Stabilität
+				- Eingabedaten validieren
+				- JSON-Schema, XML-Schema, Validierungsregeln als Code...
+
+				[Fail fast](https://de.wikipedia.org/wiki/Fail-Fast)
+			</section>
+			<section id="rest-api4" data-markdown>
+				### Stabilität
+				- Tolerant-Reader-Pattern für Clients und Server einsetzen
+				- Mapping auf definierte Ein/Ausgabestrukturen, alles was nicht passt wird ignoriert
+				- eigenes Datenmodell für API-Layer
+				- alternativ: Tool-Unterstützung konsequent nutzen (z.B. JsonIgnore...)
+
+				[TolerantReader](https://martinfowler.com/bliki/TolerantReader.html)
+			</section>
+			<section id="rest-api5" data-markdown>
+				### Stabilität
+				- ermöglicht kompatible Weiterentwicklung
+				- hinzufügen neuer Felder problemlos möglich
+				- (alte) Clients funktionieren weiterhin
+			</section>
+			<section id="rest-api6" data-markdown>
+				### Stabilität
+				- Http-Timeouts setzen (warten auf Hintergrund-Dienste blockt Worker-Threads)
+
+				[Spring-Timeouts setzen](https://www.baeldung.com/spring-rest-timeout)
+			</section>
+			<section id="rest-api7" data-markdown>
+				### Stabilität
+				- eigene Thread-Pools für Http-Requests und Hintergrund-Jobs
+
+				[Thread-Pools](https://www.baeldung.com/thread-pool-java-and-guava)
+
+				[Pool-Config](https://www.baeldung.com/java-web-thread-pool-config)
+			</section>
+			<section id="rest-api8" data-markdown>
+				### Stabilität
+				- Services sind zustandslos
+				- d.h. keine Request-spezifischen Daten in Klassenvariablen ablegen
+				- Persistenz nur über die Datenbank
+			</section>
+			<section id="rest-api9" data-markdown>
+				### Stabilität
+				- in Prod-Setup meist mehrere Instanzen eines Service aktiv (Load-Balancer)
+				- nicht sicher ob der nächste Request wieder von derselben Instanz verarbeitet wird
+			</section>
+			<section id="rest-api10" data-markdown>
+				### Versionierung
+				- Regel 1: nicht versionieren
+			</section>
+			<section id="rest-api11" data-markdown>
+				### Versionierung
+				- Problem: mit dem Release der (Public-)API hat man keine Kontrolle mehr...
+				- keine Breaking-Changes mehr möglich
+				- Nutzer sind nicht sehr erfreut, wenn sie alle 4 Wochen Anwendungen ohne erkennbaren Mehrwert ändern
+				müssen
+			</section>
+			<section id="rest-api12" data-markdown>
+				### Versionierung - Bad practice
+				- per Url /api/v1/...
+				- in den Nutzdaten
+			</section>
+			<section id="rest-api13" data-markdown>
+				### technisch möglich, aber eigentlich kein REST
+				- ...v1 ist keine Resource
+				- Nutzdaten nicht für "Technik" (SOAP)
+			</section>
+			<section id="rest-api14" data-markdown>
+				### Versionierung - Besser
+				- per Http-Header Content-Type: application/json;api=v1
+			</section>
+			<section id="rest-api15" data-markdown>
+				### Versionierung - Vermeidung
+				- s. TolerantReader
+				- Objekte / Arrays nutzen
+			</section>
+			<section id="rest-api16" data-markdown>
+				```json
+				{
+				"addresses": [
+				{
+				"city": "..."
+				},
+				{
+				"key": "shipping",
+				"city": "..."
+				}
+				]
+				}
+				```
+			</section>
+			<section id="rest-api17" data-markdown>
+				### Versionierung - Vermeidung
+				- alte Clients verwenden erste Adresse aus der Liste
+				- ursprünglich 1 Eintrag enthalten, Anforderung Lieferadresse kam später
+				- entsprechend aufbereiten
+			</section>
+			<section id="rest-api18" data-markdown>
+				```json
+				{
+				"city": {
+				"zipCode":"...",
+				"name": "",
+				"district":""
+				}
+				}
+				```
+			</section>
+			<section id="rest-api17" data-markdown>
+				### Versionierung - Vermeidung
+				- Daten duplizieren
+			</section>
+			<section id="rest-api18" data-markdown>
+				```json
+				{
+				"firstName": "",
+				"lastName": ""
+				}
+				```
+			</section>
+			<section id="rest-api19" data-markdown>
+				```json
+				{
+				"firstName": "",
+				"lastName": "",
+				name: {
+				"firstName": {
+				"primaryName": "",
+				"additionalNames": [],
+				},
+				"lastName": "".
+				}
+				}
+				```
+			</section>
+			<section id="rest-api20" data-markdown>
+				### Duplizieren
+				- Mapping-Code erforderlich: Elemente zu Name-Objekt
+				- "neue" Felder bleiben leer
+				- Fachlichkeit arbeitet intern mit den neuen Strukturen
+				- "Altlasten" nur in API-Schicht
+			</section>
+			<section id="rest-api20" data-markdown>
+				### Duplizieren
+				- neue Felder müssen vorbelegbar oder optional sein
+			</section>
 			<section id="architektur1" data-markdown>
 				### Architekturen für komplexe Anwendungen
 				- Monolith
 				- Microservices
 				- Microlyths/Moduliths (verteilte Monolithen)
+
+				[Monolith vs.
+				Micorservice](https://www.n-ix.com/microservices-vs-monolith-which-architecture-best-choice-your-business/)
 			</section>
 			<section id="architektur2" data-markdown>
 				### Monolith
@@ -1239,6 +1401,8 @@
 				- kann nur als Ganzes ausgerollt/skaliert werden
 				- relativ enge Kopplung
 				- UI - Backend - DB
+
+				[Schaubild](https://d2m6ke2px6quvq.cloudfront.net/uploads/2020/09/11/3f3de3fc-f3a8-4cd1-81cd-518496f59141.jpg)
 			</section>
 			<section id="architektur3" data-markdown>
 				### Vorteile
@@ -1258,6 +1422,8 @@
 				- Fachlichkeit in einzelne Services auslagern
 				- eigene DB pro Service
 				- optional: UI pro Service (Microfrontends)
+
+				[Schaubild](https://d2m6ke2px6quvq.cloudfront.net/uploads/2020/09/11/2381c271-4fde-4cc1-94d9-a2e2d72a81c0.jpg)
 			</section>
 			<section id="architektur6" data-markdown>
 				### Microservices - Vorteile
@@ -1306,6 +1472,11 @@
 				<p><img data-src="assets/matrix.jpg" /></p>
 				<a
 					href="https://www.ufried.com/blog/microservices_fallacy_10_microliths/">https://www.ufried.com/blog/microservices_fallacy_10_microliths/</a>
+			</section>
+			<section id="architektur11" data-markdown>
+				### Microfrontends
+
+				[Microfrontends](https://martinfowler.com/articles/micro-frontends.html#Server-sideTemplateComposition)
 			</section>
 		</div>
 	</div>
