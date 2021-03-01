@@ -1232,6 +1232,7 @@
 				- Dokumentation
 				- Stabilität (Resilience)
 				- Versionierung
+				- Fehlerbehandlung
 			</section>
 			<section id="rest-api2" data-markdown>
 				### Dokumentation
@@ -1389,6 +1390,63 @@
 				### Duplizieren
 				- neue Felder müssen vorbelegbar oder optional sein
 			</section>
+			<section id="rest-api21" data-markdown>
+				### Fehlerbehandlung
+				#### Problem: verteilte Prozesslogik
+			</section>
+			<section id="rest-api22" data-markdown>
+				### Fehlerbehandlung
+				- klassischer Ansatz Transactions -> Rollback -> atomar
+				- bei Microserices nicht möglich
+				- lose Kopplung per Http
+				- mehrere DBs
+			</section>
+			<section id="rest-api23">
+				<p><img data-src="assets/error-handling.png" /></p>
+			</section>
+			<section id="rest-api24" data-markdown>
+				### Fehlerzustand
+				- Order wurde angelegt
+				- Stock wurde aktualisiert
+				- Pyment wurde angelegt? Oder auch nicht?
+				- Rollback?
+				- und wenn beim Rollback ein Fehler auftritt?
+			</section>
+			<section id="rest-api25" data-markdown>
+				### Saga-Pattern für verteilte Transaktionen
+				- jede Operation bekommt eine eindeutige Id in der Db
+				- Operationen mit Zustand (pending, done, error, ...) abspeichern (Historie)
+				- für jeden Schreibzugriff existiert ein Rollback (zu programmieren)
+				- Retry bei Fehlern vorsehen (mehrfache Aufrufe mit identischer ID haben keine Auswirkungen)
+			</section>
+			<section id="rest-api26">
+				<p><img data-src="assets/error-handling-saga.png" /></p>
+			</section>
+			<section id="rest-api27" data-markdown>
+				### Rollback
+				- Ver&auml;nderungen statt (End-)Zust&auml;nden speichern
+				- Bankkonto: Startwert + Liste aller Ums&auml;tze statt Kontostand speichern
+			</section>
+			<section id="rest-api28" data-markdown>
+				### Stock service
+				| op-id | product-id | count | timestamp |
+				|-------------:| -----:| ---:|-----:|
+				| abc | 123 | 5 |
+				| def | 456 | 1 |
+				| def | 789 | 1 |
+			</section>
+			<section id="rest-api29" data-markdown>
+				### Rollback
+				- Zustand zu jedem Zeitpunkt wiederherstellbar
+			</section>
+			<section id="rest-api29" data-markdown>
+				### Zusammenfassung
+				- fachliche Fehler können zuverl&auml;ssig behandelt werden (Artikel nicht ausreichend auf Lager)
+				- Daten nicht immer konsistent (Latenz, während Rollback)
+				- fachliche Anforderungen pr&uuml;fen (siehe Onlinebanking...)
+				- Fehler beim Rollback nicht immer zu beheben (einzige M&ouml;glichkeit: x Retry)
+				- Logging, eigene Tabelle für Kl&auml;rf&auml;lle (Sachbearbeiter)
+			</section>
 			<section id="architektur1" data-markdown>
 				### Architekturen für komplexe Anwendungen
 				- Monolith
@@ -1479,11 +1537,81 @@
 			<section id="architektur11" data-markdown>
 				### Microfrontends
 
-				[Microfrontends](https://martinfowler.com/articles/micro-frontends.html#Server-sideTemplateComposition)
+				[Microfrontends](https://martinfowler.com/articles/micro-frontends.html)
+			</section>
+			<section id="architektur12" data-markdown>
+				### Microfrontends
+				- Links
+				- SSI (Server Side Includes)
+				- Templates
+				- Komponenten (Build-Time)
+				- Web-Components
+			</section>
+			<section id="architektur13" data-markdown>
+				### Links
+				- jeder Microservice bringt seine eigene UI mit
+				- Abstimmung CSS, Styling (Navbar...)
+				- freie Wahl der Technik (klassisches serverseitiges Rendering, SPA)
+				- Übergabe Callack-Url Zur&uuml;ck-Funktion
+			</section>
+			<section id="architektur14" data-markdown>
+				### Links - Wann?
+				- Wizard-Layout
+				- abgeschlossene Prozessschritte
+			</section>
+			<section id="architektur15" data-markdown>
+				### Links - Nachteile
+				- Ladezeiten
+				- Layout nicht 100% einheitlich bei unterschiedlichen Technologien
+			</section>
+			<section id="architektur16" data-markdown>
+				### SSI
+				- Aufruf von serverseitigen Skripten (z.B. Shell, PHP) anhand von Tags im HTML
+
+				[SSI](https://martinfowler.com/articles/micro-frontends.html#Server-sideTemplateComposition)
+			</section>
+			<section id="architektur17" data-markdown>
+				### Templates (serverseitig)
+				- Anwendungsrahmen (Web-Shell)
+				- Microservices liefern Seiten-Fragmente (HTML-String)
+				- HTML wird in die Bereiche (Header,Footer, ...) eingef&uuml;gt (Template-Engine)
+			</section>
+			<section id="architektur18" data-markdown>
+				### Anwendungsrahmen
+				- Grundlayout
+				- ext. Abh&auml;ngigkeiten (JavaScript, CSS)
+				- Shell / Microservices können relativ unabhängig ausgeliefert werden
+			</section>
+			<section id="architektur19" data-markdown>
+				### Templates (clientseitig)
+				- Anwendungsrahmen (Web-Shell)
+				- Microservices liefern Seiten-Fragmente
+				- HTML per JavaScript wird in die Bereiche eingef&uuml;gt
+
+				(IntegrationViaJavascript)[https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaJavascript]
+			</section>
+			<section id="architektur20" data-markdown>
+				### Komponenten
+				- SPA
+				- abh&auml;ngig vom eingesetzten Framework (Angular, React,...)
+				- Anwendungsrahmen (Web-Shell)
+				- Frontend-Build f&uuml; Webshell und Komponenten zusammen
+				- muss zusammen deployed werden
+				- Frontend-Monolith
+			</section>
+			<section id="architektur21" data-markdown>
+				### Komponenten
+				- automatische Tests essentiell
+				- Framework vorgegeben
+			</section>
+			<section id="architektur22" data-markdown>
+				### Web-Components
+
+				[Web-Components](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaWebComponents)
 			</section>
 		</div>
 	</div>
-
+	[]
 	<script src="dist/reveal.js"></script>
 	<script src="plugin/notes/notes.js"></script>
 	<script src="plugin/markdown/markdown.js"></script>
