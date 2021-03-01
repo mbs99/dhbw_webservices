@@ -1567,6 +1567,7 @@
 			<section id="architektur16" data-markdown>
 				### SSI
 				- Aufruf von serverseitigen Skripten (z.B. Shell, PHP) anhand von Tags im HTML
+				- klassische Webserver-Funktionalit&auml;t (mod_ssi)
 
 				[SSI](https://martinfowler.com/articles/micro-frontends.html#Server-sideTemplateComposition)
 			</section>
@@ -1586,25 +1587,33 @@
 				### Templates (clientseitig)
 				- Anwendungsrahmen (Web-Shell)
 				- Microservices liefern Seiten-Fragmente
-				- HTML per JavaScript wird in die Bereiche eingef&uuml;gt
+				- HTML wird per JavaScript wird in die Bereiche eingef&uuml;gt (innerHtml)
 
 				(IntegrationViaJavascript)[https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaJavascript]
 			</section>
 			<section id="architektur20" data-markdown>
+				### Templates - Wann?
+				- klar getrennte unabh&auml;ngige Bereiche
+			</section>
+			<section id="architektur21" data-markdown>
+				### Templates - Nachteile
+				- Layout nicht 100% einheitlich bei unterschiedlichen Technologien
+			</section>
+			<section id="architektur22" data-markdown>
 				### Komponenten
 				- SPA
 				- abh&auml;ngig vom eingesetzten Framework (Angular, React,...)
 				- Anwendungsrahmen (Web-Shell)
-				- Frontend-Build f&uuml; Webshell und Komponenten zusammen
+				- Frontend-Build f&uuml;hrt Webshell und Komponenten zusammen
 				- muss zusammen deployed werden
-				- Frontend-Monolith
+				- -&gt;Frontend-Monolith
 			</section>
-			<section id="architektur21" data-markdown>
+			<section id="architektur23" data-markdown>
 				### Komponenten
 				- automatische Tests essentiell
 				- Framework vorgegeben
 			</section>
-			<section id="architektur22" data-markdown>
+			<section id="architektur24" data-markdown>
 				### Web-Components
 
 				[Web-Components](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaWebComponents)
