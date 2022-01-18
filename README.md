@@ -1,6 +1,8 @@
 # dhbw_webservices
 Vorlesung WebServices
 
+https://mbs99.github.io/dhbw_webservices/
+
 Tools für Docker-Beispiele:
 - [Maven Setup](https://maven.apache.org/install.html "Maven setup")
 - [Docker Desktop](https://www.docker.com/products/docker-desktop "Docker Desktop")
