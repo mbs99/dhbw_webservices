@@ -1,6 +1,6 @@
 # dhbw_webservices
-Vorlesung WebServices
 
+# Folien zur Vorlesung
 https://mbs99.github.io/dhbw_webservices/
 
 Tools für Docker-Beispiele:
