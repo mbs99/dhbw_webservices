@@ -10,3 +10,4 @@ Tools für Docker-Beispiele:
 
 Literatur
 - [12 factor apps](https://12factor.net "12 factor apps")
+- [The astonishing value of speed](https://speakerdeck.com/ufried/the-astonishing-value-of-speed)
