@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  cart:
+    image: 'cart'
+    depends_on:
+      - db
+    expose:
+      - "8080"
+
+  products:
+    image: 'products'
+    depends_on:
+      - db
+    expose:
+      - "8080"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    ports:
+      - "4000:4000"
