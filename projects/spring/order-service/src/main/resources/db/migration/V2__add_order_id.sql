@@ -1,0 +1,2 @@
+ALTER TABLE ORDERS
+ADD COLUMN ORDER_ID varchar not null;

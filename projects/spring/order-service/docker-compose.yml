@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/Users/mbs/tmp/volumes/order-service
+  order-service:
+    image: order-service:0.0.1-SNAPSHOT
+    ports:
+      - '8080:8080'
+    environment:
+      - spring.r2dbc.url=r2dbc:postgresql://postgres:postgres@db:5432/postgres
+volumes:
+  db:
+    driver: local

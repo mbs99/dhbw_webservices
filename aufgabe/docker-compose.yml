@@ -1,0 +1,58 @@
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - product-api
+      - cart-api
+    ports:
+      - "4000:4000"
+  product-db:
+    image: mysql
+    container_name: db
+    volumes:
+      - data-volume:/var/lib/mysql
+      - ./products_deploy/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  product-api:
+   image: product-api
+   container_name: product-api
+   ports:
+     - "8080:8080"
+   depends_on:
+     - "product-db"
+  cart-api:
+    image: cart-api
+    container_name: cart-api
+    depends_on:
+      cart-db:
+        condition: service_healthy
+    ports:
+      - 3000:3000
+  cart-db:
+    image: mysql
+    container_name: shoppingcart_db
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - db-data:/var/lib/mysql
+      - db-logs:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=shoppingcart
+      - MYSQL_ROOT_PASSWORD=password
+    expose:
+      - 3306
+volumes:
+  data-volume:
+  db-data:
+  db-logs:
+secrets:
+  db-password:
+    file: ./.secrets/db-password
