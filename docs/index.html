@@ -1057,11 +1057,34 @@
 			<section id="webshop-architektur">
 				<p><img data-src="assets/webshop-architektur.png" /></p>
 			</section>
-			<section id="webshop-architektur-ssr">
+			<section id="webshop-architektur-ssr" data-markdown>
+				### klassische Webanwendung (Server side rendering)
+				- ASP.NET, PHP, Spring Thymeleaf, ...
+				- nur Webshop-Container von extern erreichbar
+				- Serverseitiger Zugriff auf Backends problemlos möglich
+			</section>
+			<section id="webshop-architektur-ssr-bild">
 				<p><img data-src="assets/webshop-architektur-ssr.png" /></p>
 			</section>
-			<section id="webshop-architektur-spa">
+			<section id="webshop-architektur-spa" data-markdown>
+				### Webanwendung als SPA
+				- Angular, React, Webcomponents, ...
+				- Backend-Zugriffe erfolgen jetzt vom Client aus (Browser)
+			</section>
+			<section id="webshop-architektur-spa-bild">
 				<p><img data-src="assets/webshop-architektur-spa.png" /></p>
+			</section>
+			<section id="webshop-architektur-spa2" data-markdown>
+				### Webanwendung als SPA
+				- komplexes Routing
+				- alles von extern erreichbar
+				- eher nicht ...
+			</section>
+			<section id="webshop-architektur-spa2" data-markdown>
+				### Backend for Frontend (BFF) (aka API-Gateway)
+				- zusätzliche Komponente übernimmt Routing als externes Gateway
+				- nur dieses Gateway muss erreichbar sein
+				- optional zentraler Punkt für Security, Monitoring, ...
 			</section>
 			<section id="webshop-architektur-bff">
 				<p><img data-src="assets/webshop-architektur-bff.png" /></p>
