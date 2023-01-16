@@ -1,10 +1,10 @@
-package com.example.demo;
+package de.dhbw.retrydb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class RetryDbApplicationTests {
 
 	@Test
 	void contextLoads() {
