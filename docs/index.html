@@ -762,6 +762,7 @@
 				- Datenbankanbindung
 				- ORM: JPA (Java Persistence Architecture)
 				- Plain: JDBC
+				- R2DC: Reactive Relational Database Connectivity
 			</section>
 			<section id="jpa-entity" data-markdown>
 				### JPA-Basics
@@ -1043,9 +1044,75 @@
 				### Links zu Spring + JDBC
 				- https://www.baeldung.com/spring-jdbc-jdbctemplate
 			</section>
+			<section id="r2dc" data-markdown>
+				### R2DC-Basics
+				- non-blocking (vs. JDBC)
+				- benötigt Reactive Spring aka WebFlux
+			</section>
+		        <section id="r2dc-entity" data-markdown>
+				### Entities
+				- siehe JPA
+				- aber: (noch) keine Relationen
+			</section>
+			<section id="r2dc-repo" data-markdown>
+				### Repository
+				- Repository-Interface anlegen
+
+				``` java
+				interface OrderRepo extends ReactiveCrudRepository&lt;OrderEntity, Integer&gt;
+
+				```
+			</section>
+			<section id="r2dc-queries" data-markdown>
+				### R2DC-Queries
+				``` java
+				Mono&lt;OrderEntity&gt; findById(Integer id);
+				Flux&lt;OrderEntity&gt; findByDescription(String description);
+
+				```
+			</section>
+			<section id="r2dc-guide" data-markdown>
+				### R2DC
+				- Reactive Spring
+				- Skalierung (keine Threadpools usw.)
+				- einfaches Datenmodell (wg. Relationen)
+			</section>
 			<section id="projektarbeit" data-markdown>
 				## Vorbereitung Projektarbeit
 				- Übungsprojekt
+			</section>
+		        <section id="db-arch" data-markdown>
+				## SW-Architekur
+				- ActiveRecord vs. DataMapper
+			</section>
+			<section id="db-arch-data-mapper" data-markdown>
+				### DataMapper
+				- Entity: entspricht einer Tabelle
+				- Repository: LowLevel-Zugriffe
+			</section>
+			<section id="db-arch-data-mapper-model" data-markdown>
+				### DataMapper
+				- aus OO-Sicht Antipattern
+				- (Domänen-)Klassen ohne Logik
+				- Logik meist in Service-Klassen verstreut
+			</section>
+		        <section id="db-arch-active-record" data-markdown>
+				### ActiveRecord
+				- (Domänen-)Klassen enthalten Logik und DB-Zugriffe
+				- eher OO-Style
+			</section>
+			<section id="db-arch-active-record-impl" data-markdown>
+				### Implementierung (Spring)
+				``` java
+				// Pojo
+				public class Order {
+				  private final OrderRepository orderRepository;
+				  private final OrderEntity orderEntity;
+				
+				  public Order(OrderRepository orderRepository, ...) {
+				  }
+				}
+				```
 			</section>
 			<section id="webshop">
 				<h2>Webshop</h2>
