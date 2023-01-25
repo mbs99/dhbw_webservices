@@ -1119,10 +1119,24 @@
 				// Pojo
 				public class Order {
 				  private final OrderRepository orderRepository;
-				  private final OrderEntity orderEntity;
+				  private OrderEntity orderEntity;
 				
-				  public Order(OrderRepository orderRepository, ...) {
+				  public Order(OrderRepository orderRepository) {
 				  }
+				}
+				```
+			</section>
+			<section id="db-arch-active-record-impl2" data-markdown>
+				``` java
+				public class Order {
+				  //...		
+				  public void load(Integer id) {
+				    this.orderEntity = this.orderRepository.finById(id);
+				  }
+				
+				  public void save() {//...}
+				
+				  public BigDecimal calculateShippingCost() {//...}
 				}
 				```
 			</section>
