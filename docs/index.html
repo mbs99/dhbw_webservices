@@ -1122,6 +1122,7 @@
 				  private OrderEntity orderEntity;
 				
 				  public Order(OrderRepository orderRepository) {
+				    this.orderRepository = orderRepository;
 				  }
 				}
 				```
@@ -1131,7 +1132,7 @@
 				public class Order {
 				  //...		
 				  public void load(Integer id) {
-				    this.orderEntity = this.orderRepository.finById(id);
+				    this.orderEntity = this.orderRepository.findById(id);
 				  }
 				
 				  public void save() {//...}
