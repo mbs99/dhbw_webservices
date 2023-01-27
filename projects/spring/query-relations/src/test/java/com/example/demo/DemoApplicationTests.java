@@ -27,6 +27,13 @@ class DemoApplicationTests {
 		User john = new User();
 		john.setFirstName("John");
 		john.setLastName("Doe");
+		Address address = new Address();
+		address.setCity("Testcity");
+		address.setStreet("Teststreet");
+		address.setZipCode("12345");
+		address.setNr("1a");
+		address.setUser(john);
+		john.setAddresses(List.of(address));
 
 		User jane = new User();
 		jane.setFirstName("Jane");
@@ -34,23 +41,11 @@ class DemoApplicationTests {
 
     	userRepo.saveAll(Arrays.asList(john, jane));
 
-		userRepo.findByFirstName("Jane").forEach(result -> {
-			Address address = new Address();
-			address.setCity("Testcity");
-			address.setStreet("Teststreet");
-			address.setZipCode("12345");
-			address.setNr("1a");
-			address.setUser(result);
-
-			addressRepo.save(address);
-
-		});
-
 		List<User> usersFromCity = userRepo.findByAddresses_City("Testcity");
-		assertEquals("Jane", usersFromCity.stream().findFirst().get().getFirstName());
+		assertEquals("John", usersFromCity.stream().findFirst().get().getFirstName());
 
 		List<AddressView> addressesWithZipcode = addressRepo.findByZipCode("12345");
-		assertEquals("Jane", addressesWithZipcode.get(0).getUser().getFirstName());
+		assertEquals("John", addressesWithZipcode.get(0).getUser().getFirstName());
 	}
 
 }
