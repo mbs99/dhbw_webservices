@@ -1,5 +1,10 @@
-FROM openjdk:17-alpine
-ADD target/products-0.0.1-SNAPSHOT.jar /products.jar
-RUN cd /
+FROM maven:3.8.7-eclipse-temurin-17 as build
+WORKDIR /app
+ADD pom.xml .
+ADD src src
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:17-jre
+COPY --from=build /app/target/products-0.0.1-SNAPSHOT.jar application.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar",  "products.jar"]
+ENTRYPOINT ["java", "-jar", "application.jar"]
