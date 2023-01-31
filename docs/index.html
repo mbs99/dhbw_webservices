@@ -939,16 +939,26 @@
 
 				```
 			</section>
-			<section id="jpa-transactions" data-markdown>
+			<section id="jpa-transactions-method" data-markdown>
 				### JPA-Basics
 				- Transaktionen
+				
 				``` java
 				//method level
 				@Transactional
 				public void method() {}
+				
+				```
+			</section>
+			<section id="jpa-transactions-class" data-markdown>
+				### JPA-Basics
+				- Transaktionen
+				
+				``` java
 				//class level
 				@Transactional
 				public class MyService {}
+				
 				
 				```
 			</section>
