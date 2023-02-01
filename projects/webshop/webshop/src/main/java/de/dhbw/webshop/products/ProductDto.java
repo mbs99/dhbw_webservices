@@ -1,8 +1,9 @@
-package de.dhbw.products.domain.api;
+package de.dhbw.webshop.products;
 
 public class ProductDto {
 
     private final String articleId;
+
     private final String title;
     private final String description;
 

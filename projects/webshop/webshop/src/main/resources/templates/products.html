@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+</head>
+<body>
+<h1>Products</h1>
+<div class="container" >
+    <form action="#" th:object="${searchDto}" th:action="@{/products}" method="post">
+        <div class="row">
+            <div class="col">
+                <input type="text" th:field="*{query}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <input type="submit" value="Suchen" />
+            </div>
+        </div>
+    </form>
+    <div th:unless="${#lists.isEmpty(searchDto.results)}">
+        <form class="row" th:each="p : ${searchDto.results}" th:action="@{/product}" method="post">
+            <input type="hidden" th:value="${p.articleId}" name="articleId"/>
+            <input type="hidden" th:value="${searchDto.query}" name="query"/>
+            <div class="col">
+                <p th:text="${p.title}"></p>
+                <p th:text="${p.description}"></p>
+            </div>
+            <div class="col">
+                <input type="submit" value="In den Warenkorb..." />
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
