@@ -1,5 +1,7 @@
 package de.dhbw.webshop.cart;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -7,8 +9,14 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CartService {
+    private static final Logger log = LoggerFactory.getLogger(CartService.class);
     private final RestTemplate restTemplate;
 
     private final String cartHostname;
@@ -26,13 +34,17 @@ public class CartService {
     }
 
     public CartDto getCart(Long cartId) {
+
         UriComponents url = UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host(cartHostname)
                 .port(cartPort)
-                .pathSegment(cartUrl, String.valueOf(cartId))
+                .pathSegment(pathSegmentsId(cartId))
                 .build();
+
+        log.info(url.toUri().toString());
+
         ResponseEntity<CartDto> cartDto = restTemplate.getForEntity(url.toUri(), CartDto.class);
 
         return cartDto.getBody();
@@ -44,10 +56,14 @@ public class CartService {
                 .scheme("http")
                 .host(cartHostname)
                 .port(cartPort)
-                .path(cartUrl)
+                .pathSegment(pathSegmentsId(cartDto.getCartId()))
                 .build();
 
+        log.info(url.toUri().toString());
+
         ResponseEntity<CartDto> updatedCart = restTemplate.postForEntity(url.toUri(), cartDto, CartDto.class);
+
+        log.info(updatedCart.toString());
 
         return updatedCart.getBody();
     }
@@ -61,8 +77,19 @@ public class CartService {
                 .path(cartUrl)
                 .build();
 
+        log.info(url.toUri().toString());
+
         ResponseEntity<CartDto> cartDto = restTemplate.postForEntity(url.toUri(), null, CartDto.class);
 
         return cartDto.getBody();
+    }
+
+    private String[] pathSegmentsId(Long cartId) {
+        List<String> segments = new ArrayList<>(Arrays.asList(cartUrl.split("/")));
+        segments.add(String.valueOf(cartId));
+
+        log.info(segments.toString());
+
+        return segments.stream().filter(segment -> !segment.isEmpty()).toList().toArray(new String[]{});
     }
 }

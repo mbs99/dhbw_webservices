@@ -17,25 +17,20 @@ public class ShippingController {
     }
 
     @GetMapping(path = "/shipping")
-    public String shipping(ShippingDto shippingDto) {
+    public String shipping(HttpSession httpSession, ShippingDto shippingDto) {
 
-        shippingDto.setTrackingId((String) session().getAttribute("trackingId"));
+        shippingDto.setTrackingId((String) httpSession.getAttribute("trackingId"));
         shippingDto.setStatus("PENDING");
 
         return "shipping";
     }
 
     @PostMapping(path = "/shipping")
-    public String updateStatus(ShippingDto shippingDto) {
+    public String updateStatus(HttpSession httpSession, ShippingDto shippingDto) {
 
-        shippingDto.setTrackingId((String) session().getAttribute("trackingId"));
+        shippingDto.setTrackingId((String) httpSession.getAttribute("trackingId"));
         shippingDto.setStatus(shippingService.getStatus(shippingDto.getTrackingId()));
 
         return "shipping";
-    }
-
-    private static HttpSession session() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true); // true == allow create
     }
 }

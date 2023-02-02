@@ -11,7 +11,7 @@ public class CartEntity {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItemEntity> items;
 
     public Long getId() {

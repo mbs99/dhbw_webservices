@@ -28,20 +28,20 @@ public class ProductsController {
     }
 
     @PostMapping(path = "products")
-    public String search(SearchDto searchDto) {
+    public String search(HttpSession httpSession, SearchDto searchDto) {
 
         searchDto.setResults(productsService.searchProducts(searchDto.getQuery()));
 
-        ProductsController.session().setAttribute("query", searchDto.getQuery());
+        httpSession.setAttribute("query", searchDto.getQuery());
 
         return "products";
     }
 
     @PostMapping(path = "product")
-    public String addToCart(ProductDto productDto, SearchDto searchDto) {
+    public String addToCart(HttpSession httpSession, ProductDto productDto, SearchDto searchDto) {
 
         CartDto cartDto;
-        Long cartId = (Long)session().getAttribute("cart-id");
+        Long cartId = (Long)httpSession.getAttribute("cartId");
         if(null == cartId) {
             cartDto = cartService.createCart();
         } else {
@@ -52,14 +52,9 @@ public class ProductsController {
         cartService.updateCart(cartDto);
 
         // restore search page state
-        String backupQuery = (String) ProductsController.session().getAttribute("query");
+        String backupQuery = (String) httpSession.getAttribute("query");
         searchDto.setQuery(backupQuery);
         searchDto.setResults(productsService.searchProducts(backupQuery));
         return "products";
-    }
-
-    private static HttpSession session() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true); // true == allow create
     }
 }

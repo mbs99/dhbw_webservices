@@ -2,6 +2,7 @@ package de.dhbw.webshop.cart;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ public class CartDto {
     private List<CartItemDto> items;
 
     @JsonCreator
-    public CartDto(Long cartId, List<CartItemDto> items) {
+    public CartDto(@JsonProperty("cartId") Long cartId,
+                   @JsonProperty("items") List<CartItemDto> items) {
         this.cartId = cartId;
         this.items = saveInit(items);
     }
@@ -36,5 +38,13 @@ public class CartDto {
 
     public void setItems(List<CartItemDto> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "CartDto{" +
+                "cartId=" + cartId +
+                ", items=" + items +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package de.dhbw.webshop.cart;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties
 public class CartItemDto {
@@ -12,7 +13,10 @@ public class CartItemDto {
     public CartItemDto() {
     }
 
-    public CartItemDto(String articleId, String title, int count) {
+    @JsonCreator
+    public CartItemDto(@JsonProperty("articleId") String articleId,
+                       @JsonProperty("title") String title,
+                       @JsonProperty("count") int count) {
         this.articleId = articleId;
         this.title = title;
         this.count = count;
@@ -40,5 +44,14 @@ public class CartItemDto {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    @Override
+    public String toString() {
+        return "CartItemDto{" +
+                "articleId='" + articleId + '\'' +
+                ", title='" + title + '\'' +
+                ", count=" + count +
+                '}';
     }
 }

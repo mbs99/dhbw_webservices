@@ -55,16 +55,18 @@ public class CartService {
                             .map(item -> {
                                 CartItemEntity itemEntity = new CartItemEntity();
                                 itemEntity.setCart(entity);
+                                itemEntity.setTitle(item.getTitle());
                                 itemEntity.setArticleId(item.getArticleId());
                                 itemEntity.setCount(item.getCount());
                                 return itemEntity;
                             })
                             .collect(Collectors.toList());
 
-                    entity.setItems(updatedItems);
+                    entity.getItems().clear();
+                    entity.getItems().addAll(updatedItems);
                     return entity;
                 })
-                .map(entity -> this.cartRepo.save(entity))
+                .map(this.cartRepo::save)
                 .map(this::mapCart)
                 .orElseThrow(() -> new IllegalStateException("cart == null"));
     }
