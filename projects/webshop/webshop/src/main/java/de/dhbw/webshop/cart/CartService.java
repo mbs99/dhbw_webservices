@@ -12,7 +12,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -63,7 +62,7 @@ public class CartService {
 
         ResponseEntity<CartDto> updatedCart = restTemplate.postForEntity(url.toUri(), cartDto, CartDto.class);
 
-        log.info(updatedCart.toString());
+        log.info(updatedCart.getBody().toString());
 
         return updatedCart.getBody();
     }

@@ -44,6 +44,7 @@ public class ProductsController {
         Long cartId = (Long)httpSession.getAttribute("cartId");
         if(null == cartId) {
             cartDto = cartService.createCart();
+            httpSession.setAttribute("cartId", cartDto.getCartId());
         } else {
             cartDto = cartService.getCart(cartId);
         }
