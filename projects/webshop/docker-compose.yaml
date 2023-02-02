@@ -1,25 +1,81 @@
 version: "3"
 
 services:
-  cart:
-    image: 'cart'
+  webshop:
+    image: 'webshop:latest'
+    build:
+      context: webshop/
+    container_name: webshop
     depends_on:
-      - db
-    expose:
-      - "8080"
-
-  products:
-    image: 'products'
-    depends_on:
-      - db
-    expose:
-      - "8080"
-
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - app
+      - cart
+      - shipping
+      - products
+    environment:
+      - PRODUCTS_HOST=products
+      - PRODUCTS_PORT=8080
+      - CART_HOST=cart
+      - CART_PORT=8080
+      - SHIPPING_HOST=shipping
+      - SHIPPING_PORT=8080
     ports:
-      - "4000:4000"
+      - 8080:8080
+  cart:
+    image: 'cart:latest'
+    build:
+      context: cart/
+    container_name: cart
+    depends_on:
+      - cart-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://cart-db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    expose:
+     - 8080
+  products:
+    image: 'products:latest'
+    build:
+      context: products/
+    container_name: products
+    depends_on:
+      - products-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://products-db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    expose:
+     - 8080
+  shipping:
+    image: 'shipping:latest'
+    build:
+      context: shipping/
+    container_name: shipping
+    depends_on:
+      - shipping-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://shipping-db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    expose:
+     - 8080      
+  cart-db:
+    image: 'postgres:15-alpine'
+    container_name: cart-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  shipping-db:
+    image: 'postgres:15-alpine'
+    container_name: shipping-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  products-db:
+    image: 'postgres:15-alpine'
+    container_name: products-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres

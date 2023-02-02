@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+</head>
+<body>
+<div class="container">
+        <form th:action="@{/submit}" method="post" th:object="${customerDto}">
+            <div class="row">
+                <div class="col">
+                    <label for="firstName">Vorname</label>
+                    <input id="firstName" type="text" th:field="*{firstName}"/>
+                </div>
+                <div class="col">
+                    <label for="lastName">Nachname</label>
+                    <input id="lastName" type="text" th:field="*{lastName}"/>
+                </div>
+            </div>
+            <input type="submit" value="Abschicken..." />
+        </form>
+    </div>
+</div>
+</body>
+</html>

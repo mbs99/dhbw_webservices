@@ -1,5 +1,7 @@
 package de.dhbw.webshop.products;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.Objects;
 
 @Service
 public class ProductsService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductsService.class);
     private final RestTemplate restTemplate;
     private final String hostname;
     private Integer port;
@@ -34,11 +38,14 @@ public class ProductsService {
 
         UriComponents url = UriComponentsBuilder
                 .newInstance()
+                .scheme("http")
                 .host(hostname)
                 .port(port)
                 .path(searchPath)
                 .queryParam("query", query)
                 .build();
+
+        log.info(url.toUri().toString());
 
         ResponseEntity<ProductDto[]> result = restTemplate.getForEntity(url.toUri(), ProductDto[].class);
         return Arrays.asList(Objects.requireNonNull(result.getBody()));

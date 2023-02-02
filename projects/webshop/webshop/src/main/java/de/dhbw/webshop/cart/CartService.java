@@ -28,6 +28,7 @@ public class CartService {
     public CartDto getCart(Long cartId) {
         UriComponents url = UriComponentsBuilder
                 .newInstance()
+                .scheme("http")
                 .host(cartHostname)
                 .port(cartPort)
                 .pathSegment(cartUrl, String.valueOf(cartId))
@@ -40,6 +41,7 @@ public class CartService {
     public CartDto updateCart(CartDto cartDto) {
         UriComponents url = UriComponentsBuilder
                 .newInstance()
+                .scheme("http")
                 .host(cartHostname)
                 .port(cartPort)
                 .path(cartUrl)
@@ -53,6 +55,7 @@ public class CartService {
     public CartDto createCart() {
         UriComponents url = UriComponentsBuilder
                 .newInstance()
+                .scheme("http")
                 .host(cartHostname)
                 .port(cartPort)
                 .path(cartUrl)
