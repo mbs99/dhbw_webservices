@@ -1,5 +1,8 @@
 package de.dhbw.webshop.products;
 
+import de.dhbw.webshop.cart.CartDto;
+import de.dhbw.webshop.cart.CartItemDto;
+import de.dhbw.webshop.cart.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +15,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 public class ProductsController {
 
     private final ProductsService productsService;
+    private final CartService cartService;
 
-    public ProductsController(ProductsService productsService) {
+    public ProductsController(ProductsService productsService, CartService cartService) {
         this.productsService = productsService;
+        this.cartService = cartService;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = {"products"})
@@ -34,6 +39,17 @@ public class ProductsController {
 
     @PostMapping(path = "product")
     public String addToCart(ProductDto productDto, SearchDto searchDto) {
+
+        CartDto cartDto;
+        Long cartId = (Long)session().getAttribute("cart-id");
+        if(null == cartId) {
+            cartDto = cartService.createCart();
+        } else {
+            cartDto = cartService.getCart(cartId);
+        }
+
+        cartDto.getItems().add(new CartItemDto(productDto.getArticleId(), productDto.getTitle(), 1));
+        cartService.updateCart(cartDto);
 
         // restore search page state
         String backupQuery = (String) ProductsController.session().getAttribute("query");

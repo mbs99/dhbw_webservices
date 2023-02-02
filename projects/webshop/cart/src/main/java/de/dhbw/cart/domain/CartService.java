@@ -23,28 +23,29 @@ public class CartService {
         this.cartRepo = cartRepo;
     }
 
-    public CartDto getCartCreateIfNotThere(String customerId) {
+    public CartDto getCartById(Long cartId) {
 
-        return this.cartRepo.findFirstByCustomerId(customerId)
-                .map(entity -> new CartDto(entity.getCustomerId(),
+        return this.cartRepo.findById(cartId)
+                .map(entity -> new CartDto(entity.getId(),
                         entity.getItems()
                                 .stream()
                                 .map(this::mapItem)
                                 .collect(Collectors.toList())))
-                .orElseGet(() -> {
-                    CartEntity cart = new CartEntity();
-                    cart.setCustomerId(customerId);
-                    cart.setItems(new ArrayList<>());
-
-                    return Optional.of(this.cartRepo.save(cart))
-                            .map(entity -> new CartDto(customerId, new ArrayList<>()))
-                            .orElseThrow(() -> new IllegalStateException("cart == null"));
-                });
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
     }
 
+    public CartDto createCart() {
+        CartEntity cart = new CartEntity();
+        cart.setItems(new ArrayList<>());
+
+        return Optional.of(this.cartRepo.save(cart))
+                .map(entity -> new CartDto(entity.getId(), new ArrayList<>()))
+                .orElseThrow(() -> new IllegalStateException("cart == null"));
+    }
+
     public CartDto updateCart(CartDto cartDto) {
-        CartEntity cart = this.cartRepo.findFirstByCustomerId(cartDto.getCustomerId())
+        CartEntity cart = this.cartRepo.findById(cartDto.getCartId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return Optional.of(cart)
                 .map(entity -> {
@@ -68,12 +69,12 @@ public class CartService {
                 .orElseThrow(() -> new IllegalStateException("cart == null"));
     }
 
-    public void deleteCart(String customerId) {
-        this.cartRepo.deleteByCustomerId(customerId);
+    public void deleteCart(Long cartId) {
+        this.cartRepo.deleteById(cartId);
     }
 
     private CartDto mapCart(CartEntity entity) {
-        return new CartDto(entity.getCustomerId(),
+        return new CartDto(entity.getId(),
                 entity.getItems()
                         .stream()
                         .map(this::mapItem)

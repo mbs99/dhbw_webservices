@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Demo</title>
+</head>
+<body>
+<div class="container">
+    <div th:unless="${#lists.isEmpty(cartDto.items)}">
+        <form th:action="@{/cart}" method="post" th:object="${cartDto}">
+            <input type="hidden" th:field="*{cartId}"/>
+        <div class="row" th:each="item, stat : *{items}">
+            <p th:text="${item.title}"></p>
+            <div class="col">
+                <label th:for="'count_' + ${stat.index}">Anzahl</label>
+                <input th:id="'count_' + ${stat.index}" type="number" th:field="*{items[__${stat.index}__].count}">
+                <input type="hidden" th:field="*{items[__${stat.index}__].articleId}">
+            </div>
+        </div>
+            <div class="row">
+                <div class="col">
+                    <input type="submit" value="Warenkorb speichern..." />
+                </div>
+            </div>
+        </form>
+        <form th:action="@{/submit}" method="post" th:object="${cartDto}">
+            <input type="hidden" th:field="*{cartId}"/>
+            <input type="submit" value="Verbindlich bestellen..." />
+        </form>
+    </div>
+</div>
+</body>
+</html>

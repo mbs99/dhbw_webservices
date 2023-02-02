@@ -11,9 +11,6 @@ public class CartEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "customer_id")
-    private String customerId;
-
     @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
     private List<CartItemEntity> items;
 
@@ -23,14 +20,6 @@ public class CartEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
     }
 
     public List<CartItemEntity> getItems() {

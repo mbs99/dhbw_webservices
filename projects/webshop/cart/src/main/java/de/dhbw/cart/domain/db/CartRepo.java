@@ -6,7 +6,4 @@ import java.util.Optional;
 
 public interface CartRepo extends CrudRepository<CartEntity, Long> {
 
-    Optional<CartEntity> findFirstByCustomerId(String customerId);
-
-    void deleteByCustomerId(String customerId);
 }

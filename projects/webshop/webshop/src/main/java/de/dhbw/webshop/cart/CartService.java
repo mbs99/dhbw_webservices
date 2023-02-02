@@ -25,12 +25,12 @@ public class CartService {
         this.cartUrl = cartUrl;
     }
 
-    public CartDto getCart(String customerId) {
+    public CartDto getCart(Long cartId) {
         UriComponents url = UriComponentsBuilder
                 .newInstance()
                 .host(cartHostname)
                 .port(cartPort)
-                .path(cartUrl)
+                .pathSegment(cartUrl, String.valueOf(cartId))
                 .build();
         ResponseEntity<CartDto> cartDto = restTemplate.getForEntity(url.toUri(), CartDto.class);
 
@@ -48,5 +48,18 @@ public class CartService {
         ResponseEntity<CartDto> updatedCart = restTemplate.postForEntity(url.toUri(), cartDto, CartDto.class);
 
         return updatedCart.getBody();
+    }
+
+    public CartDto createCart() {
+        UriComponents url = UriComponentsBuilder
+                .newInstance()
+                .host(cartHostname)
+                .port(cartPort)
+                .path(cartUrl)
+                .build();
+
+        ResponseEntity<CartDto> cartDto = restTemplate.postForEntity(url.toUri(), null, CartDto.class);
+
+        return cartDto.getBody();
     }
 }

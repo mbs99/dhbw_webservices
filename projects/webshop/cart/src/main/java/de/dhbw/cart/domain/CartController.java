@@ -4,9 +4,6 @@ import de.dhbw.cart.domain.api.CartDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Objects;
 
 @RestController
 public class CartController {
@@ -17,19 +14,24 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @GetMapping(path = "/api/cart/{customerId}")
-    public CartDto getCartByCustomerId(@PathVariable("customerId") String customerId) {
-        return cartService.getCartCreateIfNotThere(customerId);
+    @GetMapping(path = "/api/cart/{cartId}")
+    public CartDto getCartById(@PathVariable("cartId") Long cartId) {
+        return cartService.getCartById(cartId);
     }
 
-    @PostMapping(path = "/api/cart/{customerId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public CartDto updateCart(@PathVariable("customerId") String customerId, @RequestBody CartDto cartDto) {
-        return cartService.updateCart(new CartDto(customerId, cartDto.getItems()));
+    @PostMapping(path="/api/cart")
+    public CartDto createCart() {
+        return cartService.createCart();
+    }
+
+    @PostMapping(path = "/api/cart/{cartId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public CartDto updateCart(@PathVariable("cartId") Long cartId, @RequestBody CartDto cartDto) {
+        return cartService.updateCart(new CartDto(cartId, cartDto.getItems()));
     }
 
     @DeleteMapping(path = "/api/cart/{customerId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCartByCustomerId(@PathVariable("customerId") String customerId) {
-        cartService.deleteCart(customerId);
+    public void deleteCartById(@PathVariable("cartId") Long cartId) {
+        cartService.deleteCart(cartId);
     }
 }

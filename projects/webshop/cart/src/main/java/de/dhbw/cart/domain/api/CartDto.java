@@ -4,16 +4,16 @@ import java.util.List;
 
 public class CartDto {
 
-    private final String customerId;
+    private final Long cartId;
     private final List<CartItemDto> items;
 
-    public CartDto(String customerId, List<CartItemDto> items) {
-        this.customerId = customerId;
+    public CartDto(Long cartId, List<CartItemDto> items) {
+        this.cartId = cartId;
         this.items = items;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public Long getCartId() {
+        return cartId;
     }
 
     public List<CartItemDto> getItems() {
