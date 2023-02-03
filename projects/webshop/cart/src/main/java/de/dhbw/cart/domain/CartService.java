@@ -5,6 +5,8 @@ import de.dhbw.cart.domain.api.CartItemDto;
 import de.dhbw.cart.domain.db.CartEntity;
 import de.dhbw.cart.domain.db.CartItemEntity;
 import de.dhbw.cart.domain.db.CartRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class CartService {
 
+    private static final Logger log = LoggerFactory.getLogger(CartService.class);
+
     private final CartRepo cartRepo;
 
     public CartService(CartRepo cartRepo) {
@@ -26,11 +30,11 @@ public class CartService {
     public CartDto getCartById(Long cartId) {
 
         return this.cartRepo.findById(cartId)
-                .map(entity -> new CartDto(entity.getId(),
-                        entity.getItems()
-                                .stream()
-                                .map(this::mapItem)
-                                .collect(Collectors.toList())))
+                .map(this::mapCart)
+                .map(cart -> {
+                    log.debug("{}", cart);
+                    return cart;
+                })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
     }
@@ -88,6 +92,9 @@ public class CartService {
     }
 
     public void addToCart(Long cartId, CartItemDto cartItemDto) {
+
+        log.debug("cartId={}, cartItemDto={}", cartId, cartItemDto);
+
         CartEntity cart = this.cartRepo.findById(cartId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 

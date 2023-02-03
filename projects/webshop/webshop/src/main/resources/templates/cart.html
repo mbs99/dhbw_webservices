@@ -16,6 +16,7 @@
                 <label th:for="'count_' + ${stat.index}">Anzahl</label>
                 <input th:id="'count_' + ${stat.index}" type="number" th:field="*{items[__${stat.index}__].count}">
                 <input type="hidden" th:field="*{items[__${stat.index}__].articleId}">
+                <input type="hidden" th:field="*{items[__${stat.index}__].title}">
             </div>
         </div>
             <div class="row">

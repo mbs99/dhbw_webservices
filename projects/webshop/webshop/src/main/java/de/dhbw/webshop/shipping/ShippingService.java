@@ -1,6 +1,9 @@
 package de.dhbw.webshop.shipping;
 
 import de.dhbw.webshop.cart.OrderDto;
+import de.dhbw.webshop.shared.PathHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,8 +11,15 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class ShippingService {
+
+    private static final Logger log = LoggerFactory.getLogger(ShippingService.class);
+
     private final RestTemplate restTemplate;
     private final String shippingHostname;
     private final int shippingPort;
@@ -32,7 +42,7 @@ public class ShippingService {
                 .scheme("http")
                 .host(shippingHostname)
                 .port(shippingPort)
-                .pathSegment(shippingBaseUrl)
+                .pathSegment(PathHelper.pathSegments(shippingBaseUrl))
                 .build();
 
         ResponseEntity<StatusDto> status = restTemplate.postForEntity(url.toUri(), orderDto, StatusDto.class);
@@ -46,11 +56,13 @@ public class ShippingService {
                 .scheme("http")
                 .host(shippingHostname)
                 .port(shippingPort)
-                .pathSegment(shippingBaseUrl, trackingId, "status")
+                .pathSegment(PathHelper.pathSegments(shippingBaseUrl, List.of(trackingId, "status")))
                 .build();
 
         ResponseEntity<StatusDto> status = restTemplate.getForEntity(url.toUri(), StatusDto.class);
 
         return status.getBody().status();
     }
+
+
 }

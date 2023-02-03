@@ -31,4 +31,13 @@ public class CartItemDto {
     public int getCount() {
         return count;
     }
+
+    @Override
+    public String toString() {
+        return "CartItemDto{" +
+                "title='" + title + '\'' +
+                ", articleId='" + articleId + '\'' +
+                ", count=" + count +
+                '}';
+    }
 }

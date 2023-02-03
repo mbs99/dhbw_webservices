@@ -17,6 +17,7 @@ services:
       - CART_PORT=8080
       - SHIPPING_HOST=shipping
       - SHIPPING_PORT=8080
+      - LOGGING_LEVEL_DE_DHBW=DEBUG
     ports:
       - 8080:8080
   cart:
@@ -31,6 +32,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - LOGGING_LEVEL_DE_DHBW=DEBUG
     expose:
      - 8080
   products:

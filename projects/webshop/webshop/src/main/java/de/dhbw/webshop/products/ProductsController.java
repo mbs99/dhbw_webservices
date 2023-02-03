@@ -4,13 +4,19 @@ import de.dhbw.webshop.cart.CartDto;
 import de.dhbw.webshop.cart.CartItemDto;
 import de.dhbw.webshop.cart.CartService;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
+
 @Controller
 public class ProductsController {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductsController.class);
 
     private final ProductsService productsService;
     private final CartService cartService;
@@ -30,13 +36,15 @@ public class ProductsController {
 
         searchDto.setResults(productsService.searchProducts(searchDto.getQuery()));
 
-        httpSession.setAttribute("query", searchDto.getQuery());
+        httpSession.setAttribute("results", searchDto.getResults());
 
         return "products";
     }
 
     @PostMapping(path = "product")
-    public String addToCart(HttpSession httpSession, ProductDto productDto, SearchDto searchDto) {
+    public String addToCart(HttpSession httpSession, SearchDto searchDto) {
+
+        log.debug("{}", searchDto.getArticleId());
 
         CartDto cartDto;
         Long cartId = (Long)httpSession.getAttribute("cartId");
@@ -47,14 +55,12 @@ public class ProductsController {
             cartDto = cartService.getCart(cartId);
         }
 
-        cartService.addCartItem(cartDto.getCartId(), new CartItemDto(productDto.getArticleId(),
-                productDto.getTitle(),
+        cartService.addCartItem(cartDto.getCartId(), new CartItemDto(searchDto.getArticleId(),
+               searchDto.getTitle(),
                 1));
+        
+        searchDto.setResults((List<ProductDto>) httpSession.getAttribute("results"));
 
-        // restore search page state
-        String backupQuery = (String) httpSession.getAttribute("query");
-        searchDto.setQuery(backupQuery);
-        searchDto.setResults(productsService.searchProducts(backupQuery));
         return "products";
     }
 }

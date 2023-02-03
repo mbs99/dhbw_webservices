@@ -26,4 +26,12 @@ public class CartDto {
     public List<CartItemDto> getItems() {
         return items;
     }
+
+    @Override
+    public String toString() {
+        return "CartDto{" +
+                "cartId=" + cartId +
+                ", items=" + items +
+                '}';
+    }
 }

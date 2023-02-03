@@ -32,4 +32,13 @@ public class ProductDto {
     public String getDescription() {
         return description;
     }
+
+    @Override
+    public String toString() {
+        return "ProductDto{" +
+                "articleId='" + articleId + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
