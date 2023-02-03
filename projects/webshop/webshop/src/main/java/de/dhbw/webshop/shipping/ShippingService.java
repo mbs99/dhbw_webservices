@@ -1,6 +1,5 @@
 package de.dhbw.webshop.shipping;
 
-import de.dhbw.webshop.cart.CartDto;
 import de.dhbw.webshop.cart.OrderDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

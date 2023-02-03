@@ -1,6 +1,7 @@
 package de.dhbw.cart.domain;
 
 import de.dhbw.cart.domain.api.CartDto;
+import de.dhbw.cart.domain.api.CartItemDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,12 @@ public class CartController {
     @PostMapping(path = "/api/cart/{cartId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public CartDto updateCart(@PathVariable("cartId") Long cartId, @RequestBody CartDto cartDto) {
         return cartService.updateCart(new CartDto(cartId, cartDto.getItems()));
+    }
+
+    @PutMapping(path = "/api/cart/{cartId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateCart(@PathVariable("cartId") Long cartId, @RequestBody CartItemDto cartItemDto) {
+        cartService.addToCart(cartId, cartItemDto);
     }
 
     @DeleteMapping(path = "/api/cart/{customerId}")

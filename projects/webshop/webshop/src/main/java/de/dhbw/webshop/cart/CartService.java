@@ -84,11 +84,30 @@ public class CartService {
     }
 
     private String[] pathSegmentsId(Long cartId) {
+        return pathSegments(cartUrl, List.of(String.valueOf(cartId)));
+    }
+
+    public void addCartItem(Long cartId, CartItemDto cartItemDto) {
+        UriComponents url = UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host(cartHostname)
+                .port(cartPort)
+                .pathSegment(pathSegments(cartUrl, List.of(String.valueOf(cartId))))
+                .build();
+
+        log.info(url.toUri().toString());
+
+        restTemplate.put(url.toUri(), cartItemDto);
+    }
+
+    private String[] pathSegments(String base, List<String> pathSeqments) {
         List<String> segments = new ArrayList<>(Arrays.asList(cartUrl.split("/")));
-        segments.add(String.valueOf(cartId));
+        segments.addAll(pathSeqments);
 
         log.info(segments.toString());
 
         return segments.stream().filter(segment -> !segment.isEmpty()).toList().toArray(new String[]{});
     }
+
 }

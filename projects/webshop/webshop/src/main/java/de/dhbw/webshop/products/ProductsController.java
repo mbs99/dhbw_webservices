@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 public class ProductsController {
@@ -49,8 +47,9 @@ public class ProductsController {
             cartDto = cartService.getCart(cartId);
         }
 
-        cartDto.getItems().add(new CartItemDto(productDto.getArticleId(), productDto.getTitle(), 1));
-        cartService.updateCart(cartDto);
+        cartService.addCartItem(cartDto.getCartId(), new CartItemDto(productDto.getArticleId(),
+                productDto.getTitle(),
+                1));
 
         // restore search page state
         String backupQuery = (String) httpSession.getAttribute("query");

@@ -86,4 +86,18 @@ public class CartService {
     private CartItemDto mapItem(CartItemEntity cartItemEntity) {
         return new CartItemDto(cartItemEntity.getTitle(), cartItemEntity.getArticleId(), cartItemEntity.getCount());
     }
+
+    public void addToCart(Long cartId, CartItemDto cartItemDto) {
+        CartEntity cart = this.cartRepo.findById(cartId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        CartItemEntity itemEntity = new CartItemEntity();
+        itemEntity.setCart(cart);
+        itemEntity.setTitle(cartItemDto.getTitle());
+        itemEntity.setArticleId(cartItemDto.getArticleId());
+        itemEntity.setCount(cartItemDto.getCount());
+        cart.getItems().add(itemEntity);
+
+        cartRepo.save(cart);
+    }
 }
