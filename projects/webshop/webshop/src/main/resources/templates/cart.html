@@ -14,21 +14,21 @@
         <div class="row" th:each="item, stat : *{items}">
             <p th:text="${item.title}"></p>
             <div class="col">
-                <label th:for="'count_' + ${stat.index}">Anzahl</label>
-                <input th:id="'count_' + ${stat.index}" type="number" th:field="*{items[__${stat.index}__].count}">
+                <label th:for="'count_' + ${stat.index}" class="form-label">Anzahl</label>
+                <input th:id="'count_' + ${stat.index}" type="number" th:field="*{items[__${stat.index}__].count}" class="form-control">
                 <input type="hidden" th:field="*{items[__${stat.index}__].articleId}">
                 <input type="hidden" th:field="*{items[__${stat.index}__].title}">
             </div>
         </div>
             <div class="row">
                 <div class="col">
-                    <input type="submit" value="Warenkorb speichern..." />
+                    <input type="submit" value="Warenkorb speichern..." class="btn btn-primary"/>
                 </div>
             </div>
         </form>
         <form th:action="@{/submit}" method="post" th:object="${cartDto}">
             <input type="hidden" th:field="*{cartId}"/>
-            <input type="submit" value="Verbindlich bestellen..." />
+            <input type="submit" value="Verbindlich bestellen..." class="btn btn-primary"/>
         </form>
     </div>
 </div>
