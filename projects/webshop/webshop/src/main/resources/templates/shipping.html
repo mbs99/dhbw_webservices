@@ -11,10 +11,12 @@
     <h1>Shipping</h1>
     <div class="row">
         <div class="col">
-            <input type="text" class="form-control" th:field="*{trackingId}" readonly />
+            <label th:for="trackingId">Tracking-Id</label>
+            <input type="text" class="form-control" th:field="*{trackingId}" readonly id="trackingId"/>
         </div>
         <div class="col">
-            <input type="text" class="form-control" th:field="*{status}" readonly />
+            <label th:for="status">Status</label>
+            <input type="text" class="form-control" th:field="*{status}" readonly id="status"/>
         </div>
     </div>
     <div class="row">
