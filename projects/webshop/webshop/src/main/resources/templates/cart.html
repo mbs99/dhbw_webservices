@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <div th:unless="${#lists.isEmpty(cartDto.items)}">
-        <form th:action="@{/cart}" method="post" th:object="${cartDto}">
+        <form th:action="@{/cart}" method="post" th:object="${cartDto}" class="form-group">
             <input type="hidden" th:field="*{cartId}"/>
         <div class="row" th:each="item, stat : *{items}">
             <p th:text="${item.title}"></p>
@@ -20,16 +20,20 @@
                 <input type="hidden" th:field="*{items[__${stat.index}__].title}">
             </div>
         </div>
-            <div class="row">
-                <div class="col">
-                    <input type="submit" value="Warenkorb speichern..." class="btn btn-primary"/>
-                </div>
+        <div class="row">
+            <div class="col">
+                <input type="submit" value="Warenkorb speichern..." class="btn btn-primary"/>
             </div>
+        </div>
         </form>
-        <form th:action="@{/submit}" method="post" th:object="${cartDto}">
+        <form th:action="@{/submit}" method="post" th:object="${cartDto}" class="form-group">
             <input type="hidden" th:field="*{cartId}"/>
             <input type="submit" value="Verbindlich bestellen..." class="btn btn-primary"/>
         </form>
+    </div>
+    <div th:if="${#lists.isEmpty(cartDto.items)}">
+        <p>keine Produkte im Warenkorb</p>
+        <a th:href="@{/products}">Weiter einkaufen</a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
