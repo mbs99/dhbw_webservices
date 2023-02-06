@@ -27,7 +27,7 @@
         </div>
     </form>
     <div th:unless="${#lists.isEmpty(searchDto.results)}">
-        <form class="row" th:each="p : ${searchDto.results}" th:action="@{/product}" method="post">
+        <form class="row" th:each="p : ${searchDto.results}" th:action="@{/product}" th:object="${productDto}" method="post">
             <input type="hidden" th:value="${p.articleId}" name="articleId"/>
             <input type="hidden" th:value="${p.title}" name="title"/>
             <div class="col">

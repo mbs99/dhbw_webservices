@@ -42,9 +42,9 @@ public class ProductsController {
     }
 
     @PostMapping(path = "product")
-    public String addToCart(HttpSession httpSession, SearchDto searchDto) {
+    public String addToCart(HttpSession httpSession, ProductDto productDto) {
 
-        log.debug("{}", searchDto.getArticleId());
+        log.debug("{}", productDto.getArticleId());
 
         CartDto cartDto;
         Long cartId = (Long)httpSession.getAttribute("cartId");
@@ -55,12 +55,15 @@ public class ProductsController {
             cartDto = cartService.getCart(cartId);
         }
 
-        cartService.addCartItem(cartDto.getCartId(), new CartItemDto(searchDto.getArticleId(),
-               searchDto.getTitle(),
+        cartService.addCartItem(cartDto.getCartId(), new CartItemDto(productDto.getArticleId(),
+               productDto.getTitle(),
                 1));
-        
-        searchDto.setResults((List<ProductDto>) httpSession.getAttribute("results"));
 
-        return "products";
+        return "product";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = {"product"})
+    public String product(ProductDto productDto) {
+        return "product";
     }
 }
