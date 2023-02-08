@@ -1204,8 +1204,9 @@
 				### Produktsuche - Warenkorb
 				- eindeutige ID für Warenkorb erforderlich
 				- Ansatz 1: Cookie setzen bein ersten Zugriff, Wert = Warenkorb-ID
-				- Ansatz 2: Warenkorb-ID als Hidden Field im HTML-Formular speichern
-				- Ansatz 3: Warenkorb-ID als Teil der URL im Hinzuf&uuml;gen-Buttons hinterlegen
+				- Ansatz 2: Warenkorb-ID in Session speichern
+				- Ansatz 3: Warenkorb-ID als Hidden Field im HTML-Formular speichern
+				- Ansatz 4: Warenkorb-ID als Teil der URL im Hinzuf&uuml;gen-Buttons hinterlegen
 			</section>
 			<section id="spring-boot-rest3" data-markdown>
 				### Cookie auslesen
@@ -1222,6 +1223,17 @@
 				.build();
 				//...
 				return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(cart);
+				}
+				```
+			</section>
+			<section id="spring-boot-rest-session" data-markdown>
+				### Session auslesen
+				``` java
+				@PostMapping("/api/cart")
+				public ResponseEntity&lt;Cart&gt; createCartFromSession(HttpSession httpSession) {
+				String cartId = httpSession.getAttribute("cartId");
+				// Id generieren, wenn nicht vorhanden...
+				// ...
 				}
 				```
 			</section>
