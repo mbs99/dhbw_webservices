@@ -1496,21 +1496,10 @@
 				- entsprechend aufbereiten
 			</section>
 			<section id="rest-api18" data-markdown>
-				```json
-				{
-				"city": {
-				"zipCode":"...",
-				"name": "",
-				"district":""
-				}
-				}
-				```
-			</section>
-			<section id="rest-api17" data-markdown>
 				### Versionierung - Vermeidung
 				- Daten duplizieren
 			</section>
-			<section id="rest-api18" data-markdown>
+			<section id="rest-api19" data-markdown>
 				```json
 				{
 				"firstName": "",
@@ -1518,7 +1507,7 @@
 				}
 				```
 			</section>
-			<section id="rest-api19" data-markdown>
+			<section id="rest-api20" data-markdown>
 				```json
 				{
 				"firstName": "",
@@ -1533,32 +1522,32 @@
 				}
 				```
 			</section>
-			<section id="rest-api20" data-markdown>
+			<section id="rest-api21" data-markdown>
 				### Duplizieren
 				- Mapping-Code erforderlich: Elemente zu Name-Objekt
 				- "neue" Felder bleiben leer
 				- Fachlichkeit arbeitet intern mit den neuen Strukturen
 				- "Altlasten" nur in API-Schicht
 			</section>
-			<section id="rest-api20" data-markdown>
+			<section id="rest-api22" data-markdown>
 				### Duplizieren
 				- neue Felder müssen vorbelegbar oder optional sein
 			</section>
-			<section id="rest-api21" data-markdown>
+			<section id="rest-api23" data-markdown>
 				### Fehlerbehandlung
 				#### Problem: verteilte Prozesslogik
 			</section>
-			<section id="rest-api22" data-markdown>
+			<section id="rest-api24" data-markdown>
 				### Fehlerbehandlung
 				- klassischer Ansatz Transactions -> Rollback -> atomar
 				- bei Microservices nicht möglich
 				- lose Kopplung per Http
 				- mehrere DBs
 			</section>
-			<section id="rest-api23">
+			<section id="rest-api25">
 				<p><img data-src="assets/error-handling.png" /></p>
 			</section>
-			<section id="rest-api24" data-markdown>
+			<section id="rest-api26" data-markdown>
 				### Fehlerzustand
 				- Order wurde angelegt
 				- Stock wurde aktualisiert
@@ -1566,22 +1555,22 @@
 				- Rollback?
 				- und wenn beim Rollback ein Fehler auftritt?
 			</section>
-			<section id="rest-api25" data-markdown>
+			<section id="rest-api27" data-markdown>
 				### Saga-Pattern für verteilte Transaktionen
 				- jede Operation bekommt eine eindeutige Id in der Db
 				- Operationen mit Zustand (pending, done, error, ...) abspeichern (Historie)
 				- für jeden Schreibzugriff existiert ein Rollback (zu programmieren)
 				- Retry bei Fehlern vorsehen (mehrfache Aufrufe mit identischer ID haben keine Auswirkungen)
 			</section>
-			<section id="rest-api26">
+			<section id="rest-api28">
 				<p><img data-src="assets/error-handling-saga.png" /></p>
 			</section>
-			<section id="rest-api27" data-markdown>
+			<section id="rest-api29" data-markdown>
 				### Rollback
 				- Ver&auml;nderungen statt (End-)Zust&auml;nden speichern
 				- Bankkonto: Startwert + Liste aller Ums&auml;tze statt Kontostand speichern
 			</section>
-			<section id="rest-api28" data-markdown>
+			<section id="rest-api30" data-markdown>
 				### Stock service
 				| op-id | product-id | count | timestamp |
 				|-------------:| -----:| ---:|-----:|
@@ -1589,11 +1578,11 @@
 				| def | 456 | 1 |
 				| def | 789 | 1 |
 			</section>
-			<section id="rest-api29" data-markdown>
+			<section id="rest-api31" data-markdown>
 				### Rollback
 				- Zustand zu jedem Zeitpunkt wiederherstellbar
 			</section>
-			<section id="rest-api29" data-markdown>
+			<section id="rest-api32" data-markdown>
 				### Zusammenfassung
 				- fachliche Fehler können zuverl&auml;ssig behandelt werden (Artikel nicht ausreichend auf Lager)
 				- Daten nicht immer konsistent (Latenz, während Rollback)
@@ -1601,7 +1590,7 @@
 				- Fehler beim Rollback nicht immer zu beheben (einzige M&ouml;glichkeit: x Retry)
 				- Logging, eigene Tabelle für Kl&auml;rf&auml;lle (Sachbearbeiter)
 			</section>
-			<section id="rest-api30" data-markdown>
+			<section id="rest-api33" data-markdown>
 				### Zusammenfassung
 				- Architektur &uuml;berdenken....
 			</section>
