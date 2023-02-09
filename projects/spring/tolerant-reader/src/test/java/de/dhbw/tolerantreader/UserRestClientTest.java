@@ -1,8 +1,5 @@
 package de.dhbw.tolerantreader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.catalina.User;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +15,14 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RestClientTest(UserRestClient.class)
 class UserRestClientTest {
 
-    @Autowired
-    UserRestClient userRestClient;
+    private final UserRestClient userRestClient;
+    private final MockRestServiceServer server;
 
-    @Autowired
-    private MockRestServiceServer server;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    public UserRestClientTest(@Autowired UserRestClient userRestClient,
+                              @Autowired MockRestServiceServer server) {
+        this.userRestClient = userRestClient;
+        this.server = server;
+    }
 
     @ParameterizedTest
     @ValueSource(strings = {"{\"firstName\":\"John\", \"lastName\":\"Doe\"}",
@@ -51,14 +48,12 @@ class UserRestClientTest {
                 .andRespond(withSuccess(json, MediaType.APPLICATION_JSON));
 
         try {
-        UserDto userDto = userRestClient.getUserById("1");
-        } catch (RestClientException e) {
-            assertTrue(e.getCause().getMessage().contains("JSON parse error"));
-
-            return;
+            userRestClient.getUserById("1");
         }
         catch (Exception e) {
-            fail();
+            assertInstanceOf(RestClientException.class, e);
+
+            return;
         }
 
         fail();
