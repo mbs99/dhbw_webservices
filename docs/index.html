@@ -1594,6 +1594,19 @@
 			<section id="rest-api33">
 				<p><img data-src="assets/retry.png" /></p>
 			</section>
+			<section id="rest-api34" data-markdown>
+				### Bedingung
+				- Backends müssen mit Duplikaten umgehen können
+				- evtl. wurde die Zahlung durchgeführt, Fehler in der Antwort
+				- Payment-Request beinhaltet z.B. OrderId
+				- d.h. nur einmal pro Order anlegen bei Retry
+			</section>
+			<section id="rest-api35" data-markdown>
+				### Rollback
+				- zu definieren was bei welchem Fehler getan werden muss
+				- hier: Stock + Payment, evtl. Order
+				- -> manuelle Transaktion über mehrere Systeme
+			</section>
 			<section id="saga-pattern1" data-markdown>
 				### Saga-Pattern für verteilte Transaktionen
 				- jede Operation bekommt eine eindeutige Id in der Db
