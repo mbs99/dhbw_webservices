@@ -1583,6 +1583,14 @@
 				### 500 internal error
 				- Retry denkbar
 			</section>
+			<section id="rest-api32" data-markdown>
+				### einfache Retry Strategie
+				- pro Backend!
+				- Retry x Versuche mit steigender Wartezeit
+				- auf Request-Timeout abstimmen!
+				- danach Rollback
+				- bei Rollback-Fehler: Retry
+			</section>
 			<section id="saga-pattern1" data-markdown>
 				### Saga-Pattern für verteilte Transaktionen
 				- jede Operation bekommt eine eindeutige Id in der Db
