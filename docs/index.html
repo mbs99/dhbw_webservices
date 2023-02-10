@@ -1556,21 +1556,49 @@
 				- und wenn beim Rollback ein Fehler auftritt?
 			</section>
 			<section id="rest-api27" data-markdown>
+				### Fehlerbehandlung
+				- Retry
+				- Rollback
+				- ...
+			</section>
+			<section id="rest-api28" data-markdown>
+				### Unterscheidung Art des Fehlers (REST)
+				- 4xx Client Fehler
+				- 5xx Server Fehler
+			</section>
+			<section id="rest-api29" data-markdown>
+				### 401/403 Auth Problem
+				- Retry nutzlos
+				- Account gesperrt
+			</section>
+			<section id="rest-api29" data-markdown>
+				### 404 not found
+				- Retry nutzlos
+			</section>
+			<section id="rest-api30" data-markdown>
+				### 400 bad request / 422 unprocessable entity
+				- Validierungsfehler
+			</section>
+			<section id="rest-api31" data-markdown>
+				### 500 internal error
+				- Retry denkbar
+			</section>
+			<section id="saga-pattern1" data-markdown>
 				### Saga-Pattern für verteilte Transaktionen
 				- jede Operation bekommt eine eindeutige Id in der Db
 				- Operationen mit Zustand (pending, done, error, ...) abspeichern (Historie)
 				- für jeden Schreibzugriff existiert ein Rollback (zu programmieren)
 				- Retry bei Fehlern vorsehen (mehrfache Aufrufe mit identischer ID haben keine Auswirkungen)
 			</section>
-			<section id="rest-api28">
+			<section id="saga-pattern2">
 				<p><img data-src="assets/error-handling-saga.png" /></p>
 			</section>
-			<section id="rest-api29" data-markdown>
+			<section id="saga-pattern3" data-markdown>
 				### Rollback
 				- Ver&auml;nderungen statt (End-)Zust&auml;nden speichern
 				- Bankkonto: Startwert + Liste aller Ums&auml;tze statt Kontostand speichern
 			</section>
-			<section id="rest-api30" data-markdown>
+			<section id="saga-pattern4" data-markdown>
 				### Stock service
 				| op-id | product-id | count | timestamp |
 				|-------------:| -----:| ---:|-----:|
@@ -1578,11 +1606,11 @@
 				| def | 456 | 1 |
 				| def | 789 | 1 |
 			</section>
-			<section id="rest-api31" data-markdown>
+			<section id="saga-pattern5" data-markdown>
 				### Rollback
 				- Zustand zu jedem Zeitpunkt wiederherstellbar
 			</section>
-			<section id="rest-api32" data-markdown>
+			<section id="saga-pattern6" data-markdown>
 				### Zusammenfassung
 				- fachliche Fehler können zuverl&auml;ssig behandelt werden (Artikel nicht ausreichend auf Lager)
 				- Daten nicht immer konsistent (Latenz, während Rollback)
@@ -1590,7 +1618,7 @@
 				- Fehler beim Rollback nicht immer zu beheben (einzige M&ouml;glichkeit: x Retry)
 				- Logging, eigene Tabelle für Kl&auml;rf&auml;lle (Sachbearbeiter)
 			</section>
-			<section id="rest-api33" data-markdown>
+			<section id="saga-pattern7" data-markdown>
 				### Zusammenfassung
 				- Architektur &uuml;berdenken....
 			</section>
