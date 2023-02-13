@@ -6,6 +6,7 @@ import de.dhbw.webshop.cart.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,7 @@ public class ProductsController {
         return "products";
     }
 
+    @RegisterReflectionForBinding(SearchDto.class)
     @PostMapping(path = "products")
     public String search(HttpSession httpSession, SearchDto searchDto) {
 
@@ -41,6 +43,7 @@ public class ProductsController {
         return "products";
     }
 
+    @RegisterReflectionForBinding(ProductDto.class)
     @PostMapping(path = "product")
     public String addToCart(HttpSession httpSession, ProductDto productDto) {
 

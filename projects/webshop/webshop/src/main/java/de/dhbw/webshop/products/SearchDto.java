@@ -1,6 +1,9 @@
 package de.dhbw.webshop.products;
 
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
+
 import java.util.List;
+
 
 public class SearchDto {
 
