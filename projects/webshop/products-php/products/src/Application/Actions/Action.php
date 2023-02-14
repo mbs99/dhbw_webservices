@@ -70,6 +70,11 @@ abstract class Action
         return $this->args[$name];
     }
 
+    protected function resolveQueryParam(string $name)
+    {
+        return $this->request->getQueryParams()[$name] ?? "";
+    }
+
     /**
      * @param array|object|null $data
      */
