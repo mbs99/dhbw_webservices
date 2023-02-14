@@ -4,7 +4,7 @@ services:
     image: nginx:latest
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ../products/:/var/www/html
+      - ../products:/var/www/html
     ports:
       - '8080:80'
     links:
@@ -14,4 +14,4 @@ services:
       context: .
       dockerfile: Dockerfile.php
     volumes:
-      - ../products/:/var/www/html
+      - ../products:/var/www/html
