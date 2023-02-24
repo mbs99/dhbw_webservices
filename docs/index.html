@@ -1658,6 +1658,39 @@
 				- eigene Datenmodelle, Zugriffsprotokolle, Services
 				- im Extremfall: eigene Systeme dafür bauen
 			</section>
+			<section id="cqrs2" data-markdown>
+				### Command vs. Query
+				- Command: Änderung(-sauftrag)
+				- Query: Auskunft
+			</section>
+			<section id="cqrs3" data-markdown>
+				### Cart service - Read-Model
+				- wie bisher, CartDto, CartItemDto
+			</section>
+			<section id="cqrs4" data-markdown>
+				### Cart service - Write-Model
+				| op-id | cart-id | product-id | count | timestamp |
+				|-------------:| -----:| ---:|-----:|
+				| abc | 123 | 5 | 1 |
+				| def | 456 | 1 | 1 |
+				| def | 789 | 1 | 1 |
+			</section>
+		        <section id="cqrs5" data-markdown>
+				### Synchronisierung Read/Write-Models
+				- Application events
+				- MessageBroker (RabbitMQ, Kafka, ...)
+			</section>
+			<section id="cqrs5" data-markdown>
+				### Vorteile
+				- Optimierung auf Anwendungsfall (häufiger lesen als schreiben)
+				- z.B. SQL für Write-Model, NoSql für Read-Model
+			</section>
+			<section id="cqrs6" data-markdown>
+				### Nachteile
+				- Komplexität
+				- Konsistenz nicht immer gewährleistet
+				- "eventual consistent"
+			</section>
 			<section id="architektur1" data-markdown>
 				### Architekturen für komplexe Anwendungen
 				- Monolith
