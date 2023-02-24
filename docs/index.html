@@ -1892,13 +1892,13 @@
 			<section id="serverless5" data-markdown>
 				### Beispiel AWS Lambda + NodeJs
 				```javascript
-				exports.handler = function(event, context, callback) {
-                                  console.log("Received event: ", event);
-                                  var data = {
-                                    "greetings": "Hello, " + event.firstName + " " + event.lastName + "."
-                                  };
-                                  callback(null, data);
-                                }
+exports.handler = function(event, context, callback) {
+  console.log("Received event: ", event);
+  var data = {
+    "greetings": "Hello, " + event.firstName + " " + event.lastName + "."
+  };
+  callback(null, data);
+}
 				```
 			</section>
 			<section id="serverless6" data-markdown>
