@@ -1862,6 +1862,86 @@
 
 				[Web-Components](https://martinfowler.com/articles/micro-frontends.html#Run-timeIntegrationViaWebComponents)
 			</section>
+			<section id="serverless1" data-markdown>
+				## Serverless
+				- AWS Lambda
+				- Google Cloud Functions
+				- Azure Functions
+				- KNative (Kubernetes)
+			</section>
+			<section id="serverless2" data-markdown>
+				### Idee
+				- kopmplette Abstraction von HW
+				- Services werden nur bei Bedarf gestartet...
+				- und sofort wieder beendet
+				- Abrechung nach Laufzeit
+			</section>
+			<section id="serverless3" data-markdown>
+				### Konzepte
+				- Event-System (liefert die Plattform)
+				- Mapping Event-Typ -> Funktion(en) 
+				- Rückgabewert einer Funktion ist wieder ein Event
+			</section>
+			<section id="serverless4" data-markdown>
+				### Konzepte
+				- Aufteiltung der (Fach-)Logik in einzelne abgegrente Funktionen
+				- Dokument ablegen
+				- Thumbnail erstellen
+				- Kreditangebot berechnen
+			</section>
+			<section id="serverless5" data-markdown>
+				### Beispiel AWS Lambda + NodeJs
+				```javascript
+				exports.handler = function(event, context, callback) {
+                                  console.log("Received event: ", event);
+                                  var data = {
+                                    "greetings": "Hello, " + event.firstName + " " + event.lastName + "."
+                                  };
+                                  callback(null, data);
+                                }
+				```
+			</section>
+			<section id="serverless6" data-markdown>
+				### Eingabe
+				- Api-Gateway (liefert die Plattform)
+				- Plattform (z.B. Datei in S3 abgelegt)
+				- ...
+			</section>
+			<section id="serverless7" data-markdown>
+				### Deployment (AWS)
+				- Code als ZIP
+				- Docker-Container (AWS-Baseimage)
+			</section>
+			<section id="serverless8" data-markdown>
+				### Limits (AWS)
+				- temp. Speicherplatz
+				- RAM
+				- Laufzeit
+			</section>
+			<section id="serverless9" data-markdown>
+				### Vorteile
+				- Konzentration auf Fachlichkeit
+				- Kosten
+				- Time to market
+			</section>
+			<section id="serverless10" data-markdown>
+				### Nachteile
+				- kleinteilig
+				- Gesamtsystem schwer zu debuggen
+			</section>
+			<section id="serverless11" data-markdown>
+				### Best pratice
+				- von Hand zusammenklicken :-(
+				- Automatisierung
+				- Infrastructure as code (Terraform, Cloudformation...)
+				- automatische Tests
+				-  -> Reproduzierbarkeit
+			</section>
+			<section id="serverless12" data-markdown>
+				### Frameworks zum Einstieg
+				
+				[Serverless](https://www.serverless.com/)
+			</section>
 		</div>
 	</div>
 	[]
