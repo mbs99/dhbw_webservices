@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  stock-service:
+    image: 'stock-service:latest'
+    build:
+      context: stock-service/
+    container_name: stock-service
+    environment:
+      -PORT: 3000
+      -APP_NAME: stock-service
+      -DATABASE_TYPE: sqlite
+      -DATABASE_HOST: localhost
+      -DATABASE_PORT: 5432
+      -DATABASE_DB: stock.db
+      -DATABASE_NAME: Stock DB
+    ports:
+     - "3000:3000"
+    volumes:
+      - ./stock-service/.env:/.env:ro
+  payment-service:
+    image: 'payment-service:latest'
+    build:
+      context: payment-service/
+    container_name: payment-service
+    ports:
+     - "3001:3000"
+  
