@@ -42,7 +42,7 @@ export class AppService {
       console.log(e);
 
       if((e as AxiosError).response.status === 500) {
-        response = await firstValueFrom(this.httpService.delete(`http://${this.stockUrl}/api/products/events/${response}`));
+        response = await firstValueFrom(this.httpService.delete(`http://${this.stockUrl}/api/products/events/${response.data}`));
         console.log(response.data)
       } else {
         throw e;
