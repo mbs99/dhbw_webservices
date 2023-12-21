@@ -1,11 +1,12 @@
 package com.example.demo;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users" /* user is a reserved word in H2 */)
 public class User {
 
     @Id
