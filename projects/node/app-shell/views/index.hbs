@@ -1,0 +1,13 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/htmx.min.js"></script>
+    <meta charset="utf-8" />
+    <title>App</title>
+  </head>
+  <body>
+    <div hx-get="/a" hx-swap="outerHTML" hx-trigger="load"></div>
+    <div hx-get="/b" hx-swap="outerHTML" hx-trigger="load"></div>
+  </body>
+</html>
