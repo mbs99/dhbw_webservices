@@ -1137,7 +1137,7 @@
 				- Primary key festlegen
 
 				```typescript
-				@Entity('orders)
+				@Entity('orders')
 				export class OrderEntity {
 				@PrimaryGeneratedColumn() // Auto increment
 				id: number;
@@ -1145,16 +1145,16 @@
 				```
 			</section>
 			<section id="node-entity-column" data-markdown>
-				### TypeOrm-Basics
+				### TypeORM-Basics
 				- optional: Spalten vorgeben
 
 				```typescript
-				@Entity('orders)
+				@Entity('orders')
 				export class OrderEntity {
 				@PrimaryGeneratedColumn() // Auto increment
 				id: number;
 				
-				@Column({ name: "desc" })
+				@Column({ name: 'desc' })
 				description: string;
 				}
 				```
