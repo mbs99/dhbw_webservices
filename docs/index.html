@@ -679,7 +679,7 @@
 				### Build-Container - Vorteile
 				- zustandslos, ermöglicht reproduzierbare Builds
 				- isoliert, z.B. parallel mehrere Versionen einer Runtime möglich
-				- Java 8 / Java 11, PHP 7.x / PHP 8
+				- Java 11/17/..., PHP 7.x/8
 				- vgl. klassische Installation auf Server :-(
 			</section>
 			<section id="docker-build-container3" data-markdown>
@@ -1109,9 +1109,59 @@
 				- Skalierung (keine Threadpools usw.)
 				- einfaches Datenmodell (wg. Relationen)
 			</section>
+			<section id="node-db" data-markdown>
+				## WebServices mit Node/NestJs
+				- Datenbankanbindung
+				- ORM: TypeORM
+			</section>
+			<section id="node-entity" data-markdown>
+				### TypeORM-Basics
+				- Entity-Klasse anlegen
+
+				```typescript
+				@Entity()
+				export class OrderEntity {}
+				```
+			</section>
+			<section id="node-entity-table" data-markdown>
+				### TypeORM-Basics
+				- optional: Tabelle vorgeben
+
+				```typescript
+				@Entity('orders')
+				export class OrderEntity {}
+				```
+			</section>
+			<section id="node-entity-pk" data-markdown>
+				### TypeORM-Basics
+				- Primary key festlegen
+
+				```typescript
+				@Entity('orders')
+				export class OrderEntity {
+				@PrimaryGeneratedColumn() // Auto increment
+				id: number;
+				}
+				```
+			</section>
+			<section id="node-entity-column" data-markdown>
+				### TypeORM-Basics
+				- optional: Spalten vorgeben
+
+				```typescript
+				@Entity('orders')
+				export class OrderEntity {
+				@PrimaryGeneratedColumn() // Auto increment
+				id: number;
+				
+				@Column({ name: 'desc' })
+				description: string;
+				}
+				```
+			</section>
 		        <section id="db-arch" data-markdown>
 				## Ausflug SW-Architektur
-				- ActiveRecord vs. DataMapper
+				- ActiveRecord vs. DataMapper/Repository
 			</section>
 			<section id="db-arch-data-mapper" data-markdown>
 				### DataMapper
