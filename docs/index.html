@@ -1109,6 +1109,58 @@
 				- Skalierung (keine Threadpools usw.)
 				- einfaches Datenmodell (wg. Relationen)
 			</section>
+			<section id="node-db" data-markdown>
+				## WebServices mit Node/NestJs
+				- Datenbankanbindung
+				- ORM: TypeORM
+			</section>
+			<section id="node-entity" data-markdown>
+				### TypeORM-Basics
+				- Entity-Klasse anlegen
+
+				```typescript
+				@Entity()
+				export class OrderEntity {}
+				```
+			</section>
+			<section id="node-entity-table" data-markdown>
+				### TypeORM-Basics
+				- optional: Tabelle vorgeben
+
+				```typescript
+				@Entity('orders')
+				export class OrderEntity {}
+				```
+			</section>
+			<section id="node-entity-pk" data-markdown>
+				### TypeORM-Basics
+				- Primary key festlegen
+
+				```typescript
+				@Entity('orders)
+				export class OrderEntity {
+				@Id // Primary key
+				@PrimaryGeneratedColumn() // Auto increment
+				id: number;
+				}
+				```
+			</section>
+			<section id="node-entity-column" data-markdown>
+				### TypeOrm-Basics
+				- optional: Spalten vorgeben
+
+				```typescript
+				@Entity('orders)
+				export class OrderEntity {
+				@Id // Primary key
+				@PrimaryGeneratedColumn() // Auto increment
+				id: number;
+				
+				@Column({ name: "desc" })
+				description: string;
+				}
+				```
+			</section>
 		        <section id="db-arch" data-markdown>
 				## Ausflug SW-Architektur
 				- ActiveRecord vs. DataMapper
