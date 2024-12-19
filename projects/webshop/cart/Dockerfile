@@ -1,10 +1,10 @@
-FROM maven:3.9.6-eclipse-temurin-21 as build
-WORKDIR /app
+FROM debian as build
+RUN useradd -m graal
+USER graal
+WORKDIR /home/graal
 ADD pom.xml .
 ADD src src
-RUN mvn clean package -DskipTests
-
-FROM eclipse-temurin:21-jre
-COPY --from=build /app/target/cart-0.0.1-SNAPSHOT.jar application.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "application.jar"]
+RUN curl -s "https://get.sdkman.io" | bash
+RUN ls -lisa
+RUN ". .sdkman/bin/sdkman-init.sh" && sdk use java 21-graalce
+RUN mvn -Pnative native:compile -DskipTests
