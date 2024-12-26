@@ -9,10 +9,16 @@
           crossorigin="anonymous"></script>
 </head>
 <body>
-<form method="POST" >
+<form id="note-form" hx-target="#note-list"
+      hx-post="/notes"
+      hx-on::after-request="document.getElementById('note-form').reset();">
+  <div id="note-list" class="mb-3" hx-get="/notes" hx-trigger="load" hx-swap="innerHTML">
+    Loading...
+  </div>
   <div class="mb-3">
+    <h3>Add note</h3>
     <label for="note" class="form-label">Note</label>
-    <input type="text" class="form-control" id="note" aria-describedby="note">
+    <input type="text" class="form-control" id="note" name="note" aria-describedby="note">
     <div id="noteHelp" class="form-text">Add your notes.</div>
   </div>
   <button type="submit" class="btn btn-primary">Add note</button>

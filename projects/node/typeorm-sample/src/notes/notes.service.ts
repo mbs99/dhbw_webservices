@@ -18,6 +18,10 @@ export class NotesService {
     return this.notesRepository.save(entity);
   }
 
+  public async getAllNotes() {
+    return this.notesRepository.find();
+  }
+
   public async findNotesByTextContaining(text: string) {
     const results = await this.notesRepository
       .createQueryBuilder('note')
