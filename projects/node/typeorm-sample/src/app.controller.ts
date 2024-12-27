@@ -14,4 +14,9 @@ export class AppController {
   async addNote(@Body('note') noteText: string): Promise<string> {
     return this.appService.addNote({ text: noteText, date: new Date() });
   }
+
+  @Post('/search')
+  async search(@Body('query') query: string): Promise<string> {
+    return this.appService.search(query);
+  }
 }

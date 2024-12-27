@@ -8,12 +8,7 @@ export class AppService {
 
   async getHtmlNoteList(): Promise<string> {
     const notes = await this.notesService.getAllNotes();
-    const listItems = notes.reduce((l, r) => {
-      return `${l}<li>${r.text}</li>`;
-    }, '');
-    return listItems.length
-      ? `<h3>Notes</h3><ul>${listItems}</ul>`
-      : '<p>Please add some notes first.</p>';
+    return this.createHtmlNoteList(notes);
   }
 
   async addNote(note: Note) {
@@ -21,6 +16,23 @@ export class AppService {
       await this.notesService.addNote(note);
     }
     return this.getHtmlNoteList();
+  }
+
+  async search(query: string) {
+    if (query.length) {
+      const notes = await this.notesService.findNotesByTextContaining(query);
+      return this.createHtmlNoteList(notes);
+    }
+    return this.getHtmlNoteList();
+  }
+
+  private createHtmlNoteList(notes: Note[]) {
+    const listItems = notes.reduce((l, r) => {
+      return `${l}<li>${r.text}</li>`;
+    }, '');
+    return listItems.length
+      ? `<h3>Notes</h3><ul>${listItems}</ul>`
+      : '<p>Please add some notes first.</p>';
   }
 
   /*

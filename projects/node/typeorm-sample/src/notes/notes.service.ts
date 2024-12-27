@@ -25,7 +25,7 @@ export class NotesService {
   public async findNotesByTextContaining(text: string) {
     const results = await this.notesRepository
       .createQueryBuilder('note')
-      .where('note.text like :text', { text: text })
+      .where('note.text like :text', { text: `%${text}%` })
       .getMany();
 
     return results.map(
