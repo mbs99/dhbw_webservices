@@ -36,4 +36,12 @@ export class NotesService {
         }) as Note,
     );
   }
+
+  public async deleteById(id: string) {
+    await this.notesRepository
+      .createQueryBuilder('note')
+      .delete()
+      .where('id = :id', { id: id })
+      .execute();
+  }
 }
