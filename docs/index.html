@@ -1159,6 +1159,23 @@
 				}
 				```
 			</section>
+			<section id="node-query" data-markdown>
+				### TypeORM-Basics
+				- Queries
+
+				```typescript
+				const user = await dataSource
+				.getRepository(User)
+				.createQueryBuilder("user") // alias
+				.where("user.id = :id", { id: 1 })
+				.getOne()
+				}
+				```
+			</section>
+			<section id="node-typeorm" data-markdown>
+				### TypeORM-Basics
+				- [TypeORM](https://typeorm.io/select-query-builder) 
+			</section>
 		        <section id="db-arch" data-markdown>
 				## Ausflug SW-Architektur
 				- ActiveRecord vs. DataMapper/Repository
