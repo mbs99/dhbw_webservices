@@ -1225,6 +1225,71 @@
 				}
 				```
 			</section>
+			<section id="communication" data-markdown>
+				### Webservices-Kommunikation
+				- REST
+				- Alternativen: GraphQL, gRpc, ...
+			</section>
+			<section id="communication-rest" data-markdown>
+				### REST
+				- Representational State Transfer
+				- basiert auf HTTP (Methoden, Header, ...)
+				- zustandslos
+
+				https://en.wikipedia.org/wiki/REST
+			</section>
+			<section id="communication-rest-semantics" data-markdown>
+				### Semantik (Auszug)
+				- GET: read-only
+				- POST: create (Fallback)
+				- PUT: update
+				- PATCH: partial update
+				- DELETE: delete
+			</section>
+			<section id="communication-rest-pros" data-markdown>
+				### Vorteile
+				- HTTP (Internet, Routing, DNS, Caching, ..)
+				- viele Frameworks/Tools verfügbar
+				- text-basiert (Fehlersuche)
+				- wenig Standardisierung
+			</section>
+			<section id="communication-rest-cons" data-markdown>
+				### Nachteile
+				- Abstimmung Frontend/Backend erforderlich (Problem !!!)
+				- Over-/Underfetching
+				- wenig Standardisierung
+
+				https://en.wikipedia.org/wiki/Open_Data_Protocol
+			</section>
+			<section id="webservice-security" data-markdown>
+				### Webservices: Security
+				- vom Beginn an berücksichtigen !
+				- machen wir später dazu :-(
+			</section>
+			<section id="transport-security" data-markdown>
+				### Übertragung
+				- HTTPS
+			</section>
+			<section id="app-security" data-markdown>
+				### Anwendung
+				- etablierte Protokolle/Verfahren nutzen!
+				- z.B. OpenId/OAuth (Token-basiert)
+				- Auth0, AWS Cognito, Azure AD, Keycloak...
+			</section>
+			<section id="role-based-security" data-markdown>
+				### Berechtigungen
+				- Anmeldung/Token für User 1234
+				- Request mit gültigem Token an /api/profile/1234 :-)
+				- Request mit gültigem Token an /api/profile/7890 :-(
+			</section>
+			<section id="claims" data-markdown>
+				### Berechtigungen
+				- Rollen im Token speichern (z.B. scopes, claims, ...)
+				- manuelle Prüfung
+				- Framework-Unterstützung (z.B. Spring RolesAllowed)
+
+				https://www.baeldung.com/spring-security-method-security
+			</section>
 			<section id="projektarbeit" data-markdown>
 				## Vorbereitung Projektarbeit
 				- Übungsprojekt
