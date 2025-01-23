@@ -1,4 +1,4 @@
-FROM node:15.5.1-alpine3.10
+FROM node:lts-alpine
 RUN mkdir /app
 ADD dist /app/dist
 ADD node_modules /app/node_modules
