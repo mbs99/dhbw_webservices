@@ -11,7 +11,9 @@ WORKDIR /app
 ADD pom.xml .
 ADD src src
 RUN source /root/.sdkman/bin/sdkman-init.sh && mvn -Pnative native:compile
-FROM debian
+FROM alpine
+RUN apk update
+RUN apk add gcompat
 COPY --from=builder /app/target/demo /app/demo
 RUN chmod +x /app/demo
 CMD ["/app/demo"]
