@@ -16,4 +16,5 @@ RUN apk update
 RUN apk add gcompat
 COPY --from=builder /app/target/demo /app/demo
 RUN chmod +x /app/demo
+EXPOSE 8080
 CMD ["/app/demo"]
