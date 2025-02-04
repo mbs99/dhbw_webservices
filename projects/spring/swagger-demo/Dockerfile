@@ -7,4 +7,5 @@ RUN mvn clean package
 FROM eclipse-temurin:21
 RUN mkdir /app
 COPY --from=builder /app/target/openapi-0.0.1-SNAPSHOT.jar /app/openapi.jar
+EXPOSE 8080
 CMD ["java", "-jar", "/app/openapi.jar"]
