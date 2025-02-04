@@ -1,10 +1,10 @@
-package de.dhbw.swaggerdemo;
+package de.dhbw.openapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SwaggerDemoApplicationTests {
+class OpenapiApplicationTests {
 
 	@Test
 	void contextLoads() {
